@@ -1,3 +1,5 @@
+
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Offers from "./pages/Offers";
@@ -8,7 +10,9 @@ import SignUp from "./pages/SignUp";
 import Header from "./components/Header";
 function App() {
   return (
-    <div >
+   
+      <>
+
       <Router>
         <Header></Header>
         <Routes>
@@ -20,7 +24,9 @@ function App() {
           <Route path="/offers" element={<Offers></Offers>} />
         </Routes>
       </Router>
-    </div >
+      </>
+      
+    
   );
 }
 
