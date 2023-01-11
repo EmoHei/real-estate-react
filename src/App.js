@@ -1,13 +1,14 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Offers from "./pages/Offers";
-import Profile from "./pages/Profile";
-import ForgotPassword from "./pages/ForgotPassword";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import Header from "./components/Header";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Home from "./pages/home/Home";
+import Offers from "./pages/offers/Offers";
+import Profile from "./pages/profile/Profile";
+import ForgotPassword from "./pages/forgot-password/ForgotPassword";
+import SignIn from "./pages/sign-in/SignIn";
+import SignUp from "./pages/sign-up/SignUp";
+import Header from "./components/header/HeaderComp";
 function App() {
   return (
    
