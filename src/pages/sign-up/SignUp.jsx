@@ -44,7 +44,7 @@ export default function SignUp() {
       delete formDataCopy.password;
       formDataCopy.timestamp = serverTimestamp();
       await setDoc(doc(db, "users", user.uid), formDataCopy);
-      Alert
+      // Alert success Msg -usually we don't do that !!!
       toast.success('Registration was successful')
       navigate('/');
     } catch (error) {
@@ -82,9 +82,7 @@ export default function SignUp() {
                   id="name"
                   className="form-input"
                   value={name}
-
                   onChange={onChange}
-
                 />
               </FloatingLabel>
               <div>
