@@ -1,18 +1,23 @@
 import React from "react";
 import { useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Card from 'react-bootstrap/Card';
 import GoogleAuthBtnComp from '../../components/google-auth-btn/GoogleAuthBtnComp';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import '../sign-in/SignIn.css';
+import { async } from "@firebase/util";
 
 export default function SignIn() {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({ email: '', password: '', });
     const { email, password } = formData;
+    const navigate = useNavigate();
 
     function onChange(e) {
         setFormData((prevState) => ({
@@ -20,8 +25,22 @@ export default function SignIn() {
             [e.target.id]: e.target.value,
         }))
     }
+    async function onLogin(e) {
+        e.preventDefault();
+        try {
+            const auth = getAuth();
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            if (userCredential.user) {
+                toast.success('Your Login Was Successful')
+                navigate('/')
+            }
 
-   
+        } catch (error) {
+            toast.error('Bad user credentials!')
+        }
+    }
+
+
 
     return (
         <section>
@@ -38,7 +57,7 @@ export default function SignIn() {
                 </div>
 
                 <div className="form-container" >
-                    <Form >
+                    <Form onSubmit={onLogin}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <FloatingLabel
                                 controlId="floatingInput"
