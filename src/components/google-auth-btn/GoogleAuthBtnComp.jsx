@@ -6,9 +6,9 @@ export default function GoogleAuthBtnComp() {
     return (
         <div>
 
-            <Button variant="primary" type="submit" className="google-btn">
+            <Button variant="primary" type="button" className="google-btn">
                 <span className="google-icon"><FcGoogle /></span>
-                Sign In with Google
+                Continue with Google
             </Button>
 
         </div>

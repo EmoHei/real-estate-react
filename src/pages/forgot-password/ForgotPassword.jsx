@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Card from 'react-bootstrap/Card';
 import { FcGoogle } from 'react-icons/fc';
+import GoogleAuthBtnComp from "../../components/google-auth-btn/GoogleAuthBtnComp";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({
@@ -75,10 +76,7 @@ export default function SignIn() {
             <Button variant="primary" type="submit" className="submit-btn">
               SEND RESET EMAIL
             </Button>
-            <Button variant="primary" type="submit" className="google-btn">
-              <span className="google-icon"><FcGoogle /></span>
-              Sign In with Google
-            </Button>
+            <GoogleAuthBtnComp></GoogleAuthBtnComp>
           </Form>
 
         </div>

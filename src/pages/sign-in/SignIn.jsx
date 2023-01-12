@@ -20,6 +20,9 @@ export default function SignIn() {
             [e.target.id]: e.target.value,
         }))
     }
+
+   
+
     return (
         <section>
             <h1 className="title">Sign In</h1>
@@ -76,7 +79,7 @@ export default function SignIn() {
 
                             <div className="forgot-password-container">
                                 <p>Don't have an account? <span><Link style={{ color: 'red', textDecoration: 'none' }} to='/sign-up' >Sign Up</Link></span></p>
-                                <Link style={{ color: 'blue', textDecoration: 'none' }} to='/forgot-password' >Forgot password</Link>
+                                <Link style={{ color: 'blue', textDecoration: 'none' }} to='/forgot-password' >Forgot password ?</Link>
                             </div>
 
                             <Button variant="primary" type="submit" className="submit-btn">

@@ -9,6 +9,9 @@ import ForgotPassword from "./pages/forgot-password/ForgotPassword";
 import SignIn from "./pages/sign-in/SignIn";
 import SignUp from "./pages/sign-up/SignUp";
 import Header from "./components/header/HeaderComp";
+import { ToastContainer, } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
    
@@ -16,6 +19,7 @@ function App() {
 
       <Router>
         <Header></Header>
+     
         <Routes>
           <Route path="/" element={<Home></Home>} />
           <Route path="/profile" element={<Profile></Profile>} />
@@ -24,10 +28,24 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
           <Route path="/offers" element={<Offers></Offers>} />
         </Routes>
-      </Router>
-      </>
-      
     
+      </Router>
+      {/* Notification */}
+      <ToastContainer
+        position="bottom-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+    
+      </>
+
   );
 }
 

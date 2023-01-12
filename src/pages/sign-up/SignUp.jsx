@@ -8,11 +8,17 @@ import Card from 'react-bootstrap/Card';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
 import GoogleAuthBtnComp from '../../components/google-auth-btn/GoogleAuthBtnComp';
 import '../sign-up/SignUp.css';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { db } from '../../firebase-config'
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', password: '', });
   const { name, email, password } = formData;
+  const navigate = useNavigate();
 
   function onChange(e) {
     setFormData((prevState) => ({
@@ -20,6 +26,31 @@ export default function SignUp() {
       [e.target.id]: e.target.value,
     }))
 
+  }
+
+  // Register
+  async function onRegister(e) {
+    e.preventDefault();
+    try {
+      const auth = getAuth()
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      //  If for example name in formData ()
+      updateProfile(auth.currentUser, {
+        displayName: name,
+      })
+      const user = userCredential.user
+      const formDataCopy = { ...formData };
+      // !!! Important (delete password before add data to db)
+      delete formDataCopy.password;
+      formDataCopy.timestamp = serverTimestamp();
+      await setDoc(doc(db, "users", user.uid), formDataCopy);
+      Alert
+      toast.success('Registration was successful')
+      navigate('/');
+    } catch (error) {
+    // Alert Notification Message
+      toast.error("Something went wrong with registration")
+    }
   }
   return (
     <section>
@@ -38,7 +69,7 @@ export default function SignUp() {
         </div>
         {/* className="w-full md:w-[67%] lg:w-[40%] lg:ml-20" */}
         <div className="form-container" >
-          <Form >
+          <Form onSubmit={onRegister}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <FloatingLabel
                 controlId="floatingInput"
@@ -51,7 +82,7 @@ export default function SignUp() {
                   id="name"
                   className="form-input"
                   value={name}
-                  required
+
                   onChange={onChange}
 
                 />
@@ -70,7 +101,7 @@ export default function SignUp() {
                   id="email"
                   className="form-input"
                   value={email}
-                  required
+
                   onChange={onChange}
 
                 />
@@ -87,7 +118,7 @@ export default function SignUp() {
                     id="password"
                     className="form-input"
                     value={password}
-                    required
+
                     onChange={onChange}
                   />
                 </FloatingLabel>
@@ -102,7 +133,7 @@ export default function SignUp() {
 
               <FloatingLabel className="forgot-password-container">
                 <span>Already have an account?<span><Link style={{ color: 'red', textDecoration: 'none' }} to='/sign-in' > Sign In</Link></span> </span>
-                <span> <Link style={{ color: 'blue', textDecoration: 'none' }} to='/forgot-password' >Forgot Password</Link></span>
+
               </FloatingLabel>
               <Button variant="primary" type="submit" className="submit-btn">
                 Submit
