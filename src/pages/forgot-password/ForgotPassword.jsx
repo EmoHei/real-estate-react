@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from 'react-router-dom'
-import './ForgotPassword.css'
+import '../forgot-password/ForgotPassword.css'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
@@ -42,7 +42,7 @@ export default function SignIn() {
       <h1 className="title">Forgot password</h1>
 
       <div className="main-container" >
-        {/*className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6"  */}
+      
         <div className="image-container" >
           <Card className="bg-dark text-white">
             <Card.Img className="image-container-image" src="https://images.unsplash.com/flagged/photo-1564767609342-620cb19b2357?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8a2V5fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
@@ -51,7 +51,7 @@ export default function SignIn() {
           </Card>
 
         </div>
-        {/* className="w-full md:w-[67%] lg:w-[40%] lg:ml-20" */}
+       
         <div className="form-container" >
           <Form onSubmit={onForgotPassword}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -78,11 +78,7 @@ export default function SignIn() {
               </FloatingLabel>
             </Form.Group>
 
-            {/* <div className="forgot-password-container">
-            
-             
-            </div> */}
-
+           
             <Button variant="primary" type="submit" className="submit-btn">
               SEND RESET EMAIL
             </Button>

@@ -2,6 +2,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import PrivateRoute from './components/PrivateRoute';
 import Home from "./pages/home/Home";
 import Offers from "./pages/offers/Offers";
 import Profile from "./pages/profile/Profile";
@@ -22,7 +23,10 @@ function App() {
      
         <Routes>
           <Route path="/" element={<Home></Home>} />
-          <Route path="/profile" element={<Profile></Profile>} />
+        <Route path='/profile' element={<PrivateRoute/>}>
+           <Route path="/profile" element={<Profile/>} />
+        </Route>
+         
           <Route path="/sign-in" element={<SignIn></SignIn>} />
           <Route path="/sign-up" element={<SignUp></SignUp>} />
           <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
