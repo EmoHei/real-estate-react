@@ -8,6 +8,8 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Card from 'react-bootstrap/Card';
 import { FcGoogle } from 'react-icons/fc';
 import GoogleAuthBtnComp from "../../components/google-auth-btn/GoogleAuthBtnComp";
+import { toast } from "react-toastify";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 export default function SignIn() {
   const [formData, setFormData] = useState({
@@ -23,9 +25,17 @@ export default function SignIn() {
 
       [e.target.id]: e.target.value,
     }))
-
   }
-
+  async function onForgotPassword(e) {
+    e.preventDefault();
+    try {
+      const auth = getAuth();
+      await sendPasswordResetEmail(auth, email);
+      toast.success('Email was sent')
+    } catch (error) {
+      toast.error('Could not send reset password')
+    }
+  }
   return (
     <section>
 
@@ -43,7 +53,7 @@ export default function SignIn() {
         </div>
         {/* className="w-full md:w-[67%] lg:w-[40%] lg:ml-20" */}
         <div className="form-container" >
-          <Form >
+          <Form onSubmit={onForgotPassword}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <FloatingLabel
                 controlId="floatingInput"
@@ -62,12 +72,12 @@ export default function SignIn() {
                 />
               </FloatingLabel>
 
-               <FloatingLabel className="forgot-password-container">
-                <span>Don't have an account?<span><Link style={{color:'red', textDecoration:'none'}} to='/sign-in' > Register</Link></span> </span>
+              <FloatingLabel className="forgot-password-container">
+                <span>Don't have an account?<span><Link style={{ color: 'red', textDecoration: 'none' }} to='/sign-in' > Register</Link></span> </span>
                 <span> <Link style={{ color: 'blue', textDecoration: 'none' }} to='/sign-in' >Sign in instead</Link></span>
-            </FloatingLabel>
+              </FloatingLabel>
             </Form.Group>
-          
+
             {/* <div className="forgot-password-container">
             
              

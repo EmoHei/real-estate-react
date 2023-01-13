@@ -34,7 +34,6 @@ export default function SignIn() {
                 toast.success('Your Login Was Successful')
                 navigate('/')
             }
-
         } catch (error) {
             toast.error('Bad user credentials!')
         }
