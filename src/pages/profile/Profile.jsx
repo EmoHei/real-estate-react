@@ -1,54 +1,104 @@
 import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
-import { getAuth } from 'firebase/auth'
+import { getAuth, updateProfile } from 'firebase/auth'
 import '../profile/Profile.css';
 import { useNavigate } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
+import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { db } from '../../firebase-config'
 export default function Profile() {
-  const auth = getAuth();
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    name: auth.currentUser.displayName,
-    email: auth.currentUser.email,
-  });
-  const { name, email } = formData;
+    const auth = getAuth();
+    const navigate = useNavigate();
 
-  function onLogout() {
-    auth.signOut();
-    navigate('/')
-  }
-  return (
-    <div>
-      <>
-        <section className="form-section">
-          <h1 className='title'>My Profile</h1>
-          <div className='form-container'>
+    const [changeDetail, setChangeDetail] = useState(false)
+    let disabled;
 
-            <Form>
-              {/* Name Input */}
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Name</Form.Label>
-                <Form.Control type="text" id='name' value={name} className="name-input" disabled="true" />
-              </Form.Group>
 
-              {/* Email Input */}
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" id='email' value={email} className="name-input" disabled="true" />
-              </Form.Group>
+    const [formData, setFormData] = useState({
+        name: auth.currentUser.displayName,
+        email: auth.currentUser.email,
+    });
+    const { name, email } = formData;
 
-              <Form.Group className="mb-3 edit-sign-out-form-group" controlId="formBasicEmail">
-                <Form.Label>Do you want to change your name?  <span> Edit</span></Form.Label>
-                <p onClick={onLogout}>Sign Out</p>
-              </Form.Group>
-              {/* Button */}
-              <Button variant="primary" type="submit">
-                Sell or rent your home
-              </Button>
-            </Form>
-          </div>
-        </section>
-      </>
-    </div>
-  )
+    function onLogout() {
+        auth.signOut();
+        navigate('/')
+    }
+    function onChange(e) {
+        setFormData((prevState) => ({
+            ...prevState,
+            [e.target.id]: e.target.value,
+        }))
+    }
+    async function onSubmit() {
+        try {
+            if (auth.currentUser.displayName !== name) {
+                //update displayName in firebase auth
+                await updateProfile(auth.currentUser, {
+                    displayName: name
+                })
+                // update name in firestore
+                const docRef = doc(db, "users", auth.currentUser.uid)
+                await updateDoc(docRef, { name, })
+            }
+            toast.success("Profile details updated")
+        } catch (error) {
+            toast.error('Could not update the profile details')
+        }
+    }
+
+    return (
+        <div>
+            <>
+                <section className="form-section">
+                    <h1 className='title'>My Profile</h1>
+                    <div className='form-container'>
+
+                        <Form>
+                            {/* Name Input */}
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Label>Name</Form.Label>
+                                <Form.Control
+                                    type="text"
+                                    id='name'
+                                    value={name}
+                                    disabled={!changeDetail}
+                                    onChange={onChange}
+                                    style={{ backgroundColor: changeDetail ? "rgb(250, 220, 220)" : 'white' }}
+                                />
+                            </Form.Group>
+
+                            {/* Email Input */}
+                            <Form.Group className="mb-3" controlId="formBasicEmail">
+                                <Form.Label>Email address</Form.Label>
+                                <Form.Control
+                                    type="email"
+                                    id='email'
+                                    value={email}
+                                    className="name-input"
+                                    disabled={!changeDetail} />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3 edit-sign-out-form-group" controlId="formBasicEmail">
+                                <Form.Label>Do you want to change your name?
+                                    <span onClick={() => {
+                                        changeDetail && onSubmit()
+                                        setChangeDetail((prevState) => !prevState)
+                                    }}
+                                    >
+                                        {changeDetail ? ' Apply-change' : ' Edit'}
+                                    </span>
+                                </Form.Label>
+                                <p onClick={onLogout}>Sign Out</p>
+                            </Form.Group>
+                            {/* Button */}
+                            <Button variant="primary" type="submit">
+                                Sell or rent your home
+                            </Button>
+                        </Form>
+                    </div>
+                </section>
+            </>
+        </div>
+    )
 }
