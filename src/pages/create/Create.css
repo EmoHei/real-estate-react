@@ -1,0 +1,138 @@
+/* Bootstrap */
+
+/* .main-container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin-top: 50px;
+  font-weight: bold;
+}
+.row{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.col-btn-left{
+display: flex;
+justify-content: flex-start;
+}
+.col-btn-right{
+display: flex;
+justify-content: flex-end;
+}
+.beds-baths{
+    max-width: 45%;
+} */
+
+
+/* HTML / CSS */
+.main-container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.title {
+  margin-top: 50px;
+  font-weight: bold;
+}
+ .form-container {
+    margin: 0;
+ }
+.row {
+  display: flex;
+  justify-content: space-between;
+ margin: auto;
+ margin-bottom: 20px;
+}
+p{
+  margin: 0px 0px;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 0px; 
+} 
+input, textarea {
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: thin solid rgb(220, 214, 214);
+  color: rgb(81, 79, 79);
+}
+input:hover, textarea:hover {
+  border: solid 2px rgb(180, 180, 247);
+}
+.wrapper{
+    padding: 0px;
+}
+.input-beds-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 45%;
+  padding: 0;
+  margin: 0;
+}
+.input-baths-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 45%;
+  padding: 0;
+  margin: 0;
+}
+.name-input-wrapper{
+   min-width: 100%; 
+   padding: 0;
+}
+.name-input{
+    width: 100%;
+}
+.left{
+   width: 100%;
+
+    display: flex;
+     width: 100%;
+     padding: 0;
+      max-width: 45%;
+}
+.right{
+    display: flex;
+     width: 100%;
+     padding: 0;
+      max-width: 45%;
+}
+.pricePerMonth{
+    max-width: 45%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    text-align: center;
+}
+.light-btn {
+  background-color: white;
+  color: rgb(76, 73, 73);
+  padding: 10px;
+  border: solid 1px gray;
+  border-radius: 10px;
+  margin: 0px;
+  width: 100%;
+}
+.dark-btn {
+  width: 100%;
+  background-color: gray;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 0px;
+}
+.submit-btn{
+    background-color: #0B5ED7;
+    padding: 10px;
+    color: white;
+}

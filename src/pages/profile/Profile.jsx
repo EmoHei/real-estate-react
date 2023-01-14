@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
 import { getAuth, updateProfile } from 'firebase/auth'
 import '../profile/Profile.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
-import { db } from '../../firebase-config'
+import { db } from '../../firebase-config';
+import { FcHome } from 'react-icons/fc'
 export default function Profile() {
     const auth = getAuth();
     const navigate = useNavigate();
@@ -92,8 +93,15 @@ export default function Profile() {
                                 <p onClick={onLogout}>Sign Out</p>
                             </Form.Group>
                             {/* Button */}
-                            <Button variant="primary" type="submit">
+                            <Button 
+                            variant="primary" 
+                            type="submit"
+                            className='sell-rent-btn' >
+                                <Link className='rent-sell-link' to="/create-listening">
+                                 <FcHome className='home-icon'/>
                                 Sell or rent your home
+                                </Link>
+                               
                             </Button>
                         </Form>
                     </div>

@@ -44,10 +44,7 @@
 .edit-sign-out-form-group span:hover {
   color: rgb(227, 9, 9);
   cursor: pointer;
-    -webkit-box-shadow: 0px 10px 13px -7px #000000,
-    -5px -50px 41px -28px rgba(229, 244, 255, 0);
-  box-shadow: 0px 10px 13px -7px #000000,
-    -5px -50px 41px -28px rgba(229, 244, 255, 0);
+  text-decoration: underline;
 }
 
 .edit-sign-out-form-group p {
@@ -58,11 +55,25 @@
   color: #3506f3;
   font-weight: 600;
   cursor: pointer;
-
-  -webkit-box-shadow: 0px 10px 13px -7px #000000,
-    -5px -50px 41px -28px rgba(229, 244, 255, 0);
-  box-shadow: 0px 10px 13px -7px #000000,
-    -5px -50px 41px -28px rgba(229, 244, 255, 0);
+text-decoration: underline;
+}
+.sell-rent-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rent-sell-link{
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+.rent-sell-link:hover{
+  color: white;
+ 
+}
+.home-icon{
+  font-size:30px ;
+  margin-right: 10px;
 }
 @media screen and (min-width: 800px) {
   section {
