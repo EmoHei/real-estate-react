@@ -1,14 +1,20 @@
-import '../create/Create.css';
-import React, { useState } from 'react'
-import { Form, FormGroup } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import InputGroup from 'react-bootstrap/InputGroup';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import React, { useState } from 'react';
+import { db, storage } from "../../firebase-config";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import '../create/Create.css'
+import { Button, Col, Container, FloatingLabel, Form, Row } from 'react-bootstrap';
+import { toast } from "react-toastify";
+import { useNavigate, } from 'react-router-dom';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+import { v4 as uuidv4 } from "uuid";  // Install package -  npm i uuid
+
 
 export default function Create() {
+  const navigate = useNavigate();
+  const auth = getAuth();
+
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: "rent",
     name: "",
@@ -16,469 +22,425 @@ export default function Create() {
     bathrooms: 1,
     parking: false,
     furnished: false,
-    address: '',
+    address: "",
     description: "",
-    offer: false,
+    offer: true,
     regularPrice: 0,
-    discountPrice: 0,
-
-
-
-
-  })
+    discountedPrice: 0,
+    images: {},
+  });
   const {
     type,
     name,
-    bathrooms,
     bedrooms,
+    bathrooms,
     parking,
-    furnished,
     address,
+    furnished,
     description,
     offer,
     regularPrice,
-    discountPrice,
-
-
-
+    discountedPrice,
+    images,
   } = formData;
-
-  function onChange() {
-
+  function onChange(e) {
+    let boolean = null;
+    if (e.target.value === "true") {
+      boolean = true;
+    }
+    if (e.target.value === "false") {
+      boolean = false;
+    }
+    // Files
+    if (e.target.files) {
+      setFormData((prevState) => ({
+        ...prevState,
+        images: e.target.files,
+      }));
+    }
+    //Text/Boolean/Number
+    if (!e.target.files) {
+      setFormData((prevState) => ({
+        ...prevState,
+        // TODO
+        [e.target.id]: e.target.value,
+      }));
+    }
   }
-  //  Bootstrap =======================================
-  const [checked, setChecked] = useState(false);
-  // const [sellRentValue, setSellRentValue] = useState('1');
-  // const [parkingValue, setParkingValue] = useState('1');
-  // const [furnishedValue, setFurnishedValue] = useState('1');
-
-  // const sellRent = [
-  //   { name: 'SELL', value: 'sell' },
-  //   { name: 'RENT', value: 'rent' },
-  // ];
-  // const bedsBaths = [
-  //   { name: 'Parking / YES', value: 'yes' },
-  //   { name: 'Parking / NO', value: 'no' },
-  // ];
-  // const furnishedArr = [
-  //   { name: 'Furnished / YES', value: 'yes' },
-  //   { name: 'Furnished / NO', value: 'no' },
-  // ];
+  async function onSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    if (+discountedPrice >= +regularPrice) {
+      setLoading(false);
+      toast.error("Discounted price needs to be less than regular price");
+      return;
+    }
+    if (images.length > 6) {
+      setLoading(false);
+      toast.error("maximum 6 images are allowed");
+      return;
+    }
 
 
-  // =========================================================
+    async function storeImage(image) {
+      return new Promise((resolve, reject) => {
+        const storage = getStorage();
+        const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;
+        const storageRef = ref(storage, filename);
+        const uploadTask = uploadBytesResumable(storageRef, image);
+        uploadTask.on(
+          "state_changed",
+          (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            const progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+            switch (snapshot.state) {
+              case "paused":
+                console.log("Upload is paused");
+                break;
+              case "running":
+                console.log("Upload is running");
+                break;
+            }
+          },
+          (error) => {
+            // Handle unsuccessful uploads
+            reject(error);
+          },
+          () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              resolve(downloadURL);
+            });
+          }
+        );
+      });
+    }
+
+    const imgUrls = await Promise.all([...images]
+      .map((image) => storeImage(image)))
+      .catch((error) => {
+        setLoading(false);
+        toast.error("Images not uploaded");
+        return;
+      });
+
+    const formDataCopy = {
+      ...formData,
+      imgUrls,
+      timestamp: serverTimestamp(),
+      userRef: auth.currentUser.uid,
+    };
+    delete formDataCopy.images;
+    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+    const docRef = await addDoc(collection(db, "listings"), formDataCopy);
+    setLoading(false);
+    toast.success("Listing created");
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`);
+  }
+
+  // if (loading) {
+  //   return <SpinnerComp/>;
+  // }
+
 
   return (
-    <main className='main-container'>
-      <h1 className='title'>Create a Listing</h1>
+    <Container fluid="md">
+      <Form onSubmit={onSubmit}>
 
-      <div className="form-container">
-        <form className='form'>
+        <Row>
+          <Col >
+            <h1 style={{ textAlign: 'center', marginTop: '30px' }}>Create Listing</h1>
+          </Col>
+        </Row>
+        {/* Sell /Rent */}
+        <Row className=''>
 
-          <div className="row">
+          <h6 style={{ textAlign: 'center', marginTop: '30px' }} >
+            Sell / Rent
+          </h6>
+          <Col>
+            <Button
+              type="button"
+              id="type"
+              value="sale"
+              onClick={onChange}
+              variant={`${type === "rent"
+                ? "outline-secondary"
+                : "secondary"
+                }`}>Sell</Button>
+          </Col>
 
-            <div className="left">
-
-              <button
-                type='button'
-                id='type'
-                value='sale'
-                className={`${type === 'rent' ? "light-btn" : "dark-btn"}`}
-                onClick={onChange}
-              >
-                sell
-              </button>
-            </div>
-
-            <div className="right">
-              <button
-                type='button'
-                id='type'
-                value='rent'
-                className={`${type === 'sell' ? "dark-btn" : "light-btn"}`}
-                onClick={onChange}
-              >
-                rent
-              </button>
-            </div>
-
-          </div>
-
-          <div className='row'>
+          <Col>
+            <Button
+              type="button"
+              id="type"
+              value="rent"
+              onClick={onChange}
+              variant={`${type === "sell"
+                ? "outline-secondary"
+                : "secondary"
+                }`}
+            >Rent</Button>
+          </Col>
 
 
-            <div className="name-input-wrapper">
-              <p>Name</p>
-              <input
-                className='name-input'
-                type="text"
-                placeholder='Name'
-                id='name'
-                value={name}
-                onChange={onChange}
-                maxLength="32"
-                minLength="10"
-                required
-              />
-            </div>
 
-          </div>
 
-          <div className="row">
+        </Row>
+        {/* Name */}
+        <Row className='row-name input-row'>
 
-            <div className='input-beds-wrapper '>
-              <p>Beds</p>
-              <input
-                placeholder='Beds'
-                type="number"
-                id='bedrooms'
-                value={bedrooms}
-                onChange={onChange}
-                min='1'
-                max='50'
-                required
-              />
-            </div>
+          <FloatingLabel> Name</FloatingLabel>
+          <Col className='col-name input-col'>
+            <Form.Control
+              type="text"
+              id="name"
+              value={name}
+              onChange={onChange}
+              placeholder="Name"
+              maxLength="32"
+              minLength="10"
+              required
+            >
 
-            <div className='input-baths-wrapper '>
-              <p>Baths</p>
-              <input
-                placeholder='Baths'
-                type="number"
-                id='bathrooms'
-                value={bathrooms}
-                onChange={onChange}
-                min="1"
-                required
-              />
-            </div>
-          </div>
+            </Form.Control>
+          </Col>
+        </Row>
+        {/* Beds / Baths */}
+        <Row className='beds-baths-row' >
 
-          <p>Parking spot</p>
-          <div className="row">
+          <FloatingLabel>Beds</FloatingLabel>
 
-            <div className="left">
+          <Col className='beds-baths-col'>
+            <Form.Control
+              type="number"
+              id="bedrooms"
+              value={bedrooms}
+              onChange={onChange}
+              min="1"
+              max="50"
+              required
 
-              <button
-                type='button'
-                id='parking'
-                value={true}
-                className={`${!parking ? "light-btn" : "dark-btn"}`}
-                onClick={onChange}
-              >
-                yes
-              </button>
-            </div>
+            >
+            </Form.Control>
+          </Col>
 
-            <div className="right">
-              <button
-                type='button'
-                id='parking'
-                value={false}
-                className={`${parking ? "light-btn" : "dark-btn"}`}
-                onClick={onChange}
-              >
-                no
-              </button>
-            </div>
+          <FloatingLabel>Baths</FloatingLabel>
+          <Col className='col-name'>
+            <Form.Control
+              type="number"
+              id="bathrooms"
+              value={bathrooms}
+              onChange={onChange}
+              min="1"
+              max="50"
+              required
+            >
 
-          </div>
+            </Form.Control>
+          </Col>
+        </Row>
+        {/* Parking */}
+        <Row className=''>
+          <h6 style={{ textAlign: 'center', marginTop: '30px' }} >
+            Parking spot
+          </h6>
+          <Col className=''>
 
-          <p>Furnished</p>
-          <div className="row">
+            <Button
+              type="button"
+              id="parking"
+              value={true}
+              onClick={onChange}
+              variant={`${!parking ? "outline-secondary" : "secondary"
+                }`}
+            >Yes</Button>
+          </Col>
+          <Col className=''>
 
-            <div className="left">
+            <Button
+              type="button"
+              id="parking"
+              value={false}
+              onClick={onChange}
+              variant={`${parking ? "outline-secondary" : "secondary"
+                }`}
+            >No </Button>
+          </Col>
+        </Row>
+        {/* Furnished */}
+        <Row className=''>
+          <h6 style={{ textAlign: 'center', marginTop: '30px' }} >
+            Furnished
+          </h6>
+          <Col className=''>
+            <Button
+              type="button"
+              id="furnished"
+              value={true}
+              onClick={onChange}
+              variant={`${!furnished ? "outline-secondary" : "secondary"}`}
+            >Yes</Button>
+          </Col>
+          <Col className=''>
+            <Button
+              type="button"
+              id="furnished"
+              value={false}
+              onClick={onChange}
+              variant={`${furnished ? "outline-secondary" : "secondary"}`}
+            >No</Button>
+          </Col>
 
-              <button
-                type='button'
-                id='furnished'
-                value={true}
-                className={`${!furnished ? "light-btn" : "dark-btn"}`}
-                onClick={onChange}
-              >
-                yes
-              </button>
-            </div>
+        </Row>
+        {/* Address */}
+        <Row className='row-address input-row'>
+          <FloatingLabel> Address</FloatingLabel>
+          <Col className='col-address input-col'>
+            <Form.Control
+              as="textarea"
+              type="text"
+              id="address"
+              value={address}
+              onChange={onChange}
+              placeholder="Address"
+              required
+            >
+            </Form.Control>
+          </Col>
+        </Row>
 
-            <div className="right">
-              <button
-                type='button'
-                id='furnished'
-                value={false}
-                className={`${furnished ? "light-btn" : "dark-btn"}`}
-                onClick={onChange}
-              >
-                no
-              </button>
-            </div>
+        {/* Geolocation */}
 
-          </div>
+        {/* Description */}
+        <Row className='row-description input-row'>
 
-          <div className='row'>
-            <div className="wrapper">
-              <p>Address</p>
-              <textarea
-                className='name-input'
-                type="text"
-                placeholder='Address'
-                id='address'
-                value={address}
-                onChange={onChange}
-                required
-              />
-            </div>
+          <FloatingLabel> Description</FloatingLabel>
+          <Col className='col-description input-col'>
+            <Form.Control
+              as="textarea"
+              type="text"
+              id="description"
+              value={description}
+              onChange={onChange}
+              placeholder="Description"
+              required
+            >
 
-          </div>
+            </Form.Control>
+          </Col>
+        </Row>
+        {/* Offer*/}
+        <Row className='radio-btn-row'>
 
-          <div className='row'>
-            <div className="wrapper">
-              <p>Description</p>
-              <textarea
-                className='name-input'
-                type="text"
-                placeholder='Description'
-                id='description'
-                value={description}
-                onChange={onChange}
-                maxLength="100"
-                minLength="10"
-                required
-              />
-            </div>
+          <h6 style={{ textAlign: 'center', marginTop: '30px' }} >
+            Offer
+          </h6>
+          <Col className=''>
+            <Button
+              type="button"
+              id="offer"
+              value={true}
+              onClick={onChange}
+              variant={`${!offer ? "outline-secondary" : "secondary"
+                }`}
+            >
+              yes
+            </Button>
+          </Col>
+          <Col className=''>
+            <Button
+              type="button"
+              id="offer"
+              value={true}
+              onClick={onChange}
+              variant={`${offer ? "outline-secondary" : "secondary"
+                }`}
+            >
+              no
+            </Button>
+          </Col>
+        </Row>
+        {/* RegularPrice / DiscountedPrice /*/}
+        <Row className='' >
 
-          </div>
-          {/* Offer */}
-          <p>Offer</p>
-          <div className="row">
+          <FloatingLabel>Regular price</FloatingLabel>
 
-            <div className="left">
-
-              <button
-                type='button'
-                id='offer'
-                value={true}
-                className={`${!offer ? "light-btn" : "dark-btn"}`}
-                onClick={onChange}
-              >
-                yes
-              </button>
-            </div>
-
-            <div className="right">
-              <button
-                type='button'
-                id='offer'
-                value={false}
-                className={`${offer ? "light-btn" : "dark-btn"}`}
-                onClick={onChange}
-              >
-                no
-              </button>
-            </div>
-
-          </div>
-
-          {/* Regular Price */}
-          <div className="row">
-
-            <div className='input-beds-wrapper'>
-              <p>Regular Price</p>
-              <input
-                placeholder='Regular Price'
-                type="number"
-                id='regularPrice'
-                value={regularPrice}
-                onChange={onChange}
-                min="50"
-                max="400 000 000"
-                required
-              />
-            </div>
+          <Col className=''>
+            <Form.Control
+              type="number"
+              id="regularPrice"
+              value={regularPrice}
+              onChange={onChange}
+              min="50"
+              max="400000000"
+              required
+            >
+            </Form.Control>
             {type === "rent" && (
-              <div className=' pricePerMonth' >
-                <p>$ / months</p>
+              <div className="">
+                <p className="text-md w-full whitespace-nowrap">$ / Month</p>
               </div>
             )}
-
-
-          </div>
-
-          {/* Discount Price */}
+          </Col>
           {offer && (
-            <div className="row">
-              <p>Discount Price</p>
-              <div className='input-beds-wrapper'>
-
-                <input
-                  placeholder='Discount Price'
+            <>
+              <FloatingLabel>Discounted price</FloatingLabel>
+              <Col className=''>
+                <Form.Control
                   type="number"
-                  id='discountPrice'
-                  value={discountPrice}
+                  id="discountedPrice"
+                  value={discountedPrice}
                   onChange={onChange}
-                  min='50'
-                  max='400 000 00'
-                  required={offer}
-                />
-
-              </div>
-              {type === "rent" && (
-                <div className=' pricePerMonth' >
-                  <p>$ / months</p>
-                </div>
-              )}
-
-            </div>
+                  min="50"
+                  max="400000000"
+                  required
+                >
+                </Form.Control>
+                {type === "rent" && (
+                  <div className="">
+                    <p className="text-md w-full whitespace-nowrap">$ / Month</p>
+                  </div>
+                )}
+              </Col>
+            </>
           )}
 
-          {/* Images */}
-          <p>Images</p>
-          <span>The first image will be the cover. (max 6 images) </span>
-          <div className="row">
-            <input
-              type="file"
-              id='images'
-              onChange={onChange}
-              accept=".jpg, png, jpeg"
-              multiple
-              required
-            />
 
-          </div>
+        </Row>
+        {/* Images / Files */}
+        <Row>
+          <FloatingLabel>Select Images</FloatingLabel>
+          <FloatingLabel>The first image will be the cover (max 6)</FloatingLabel>
+          <Col>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+              <Form.Control
+                type="file"
+                id="images"
+                onChange={onChange}
+                accept=".jpg,.png,.jpeg"
+                multiple
+                required
 
-          <button 
-          className="submit-btn"
-          type='submit'>
-            Create Listing
-          </button>
-
-
-
-        </form>
-
-
-
-        {/* WITH BOOTSTRAP */}
-
-        {/* <Form>
-          <FormGroup>
-            <Row className="row row-btn" >
-              <ButtonGroup className="mb-2">
-                {sellRent.map((sellRent, idx) => (
-               
-                  <ToggleButton
-                    key={idx}
-                    id={`sellRent-${idx}`}
-                    type="radio"
-                    variant="outline-secondary"
-                    className='btn'
-                    name="sellRent"
-                    value={sellRent.value}
-                    checked={sellRentValue === sellRent.value}
-                    onChange={(e) => setSellRentValue(e.currentTarget.value)}
-                  >
-
-                    {sellRent.name}
-                  </ToggleButton> 
-               
-                ))}
-              </ButtonGroup>
-            </Row>
-
-            <Row className="row">
-              <InputGroup className="mb-3">
-                <Form.Control
-                  placeholder='Name'
-                  aria-label="Default"
-                  aria-describedby="inputGroup-sizing-default"
-                />
-              </InputGroup>
-            </Row>
-            <Row className="row">
-              <InputGroup className="mb-3 beds-baths">
-                <InputGroup.Text id="inputGroup-sizing-default">
-                  Rooms
-                </InputGroup.Text>
-                <Form.Select aria-label="Default select example">
-                  <option></option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="10+">10+</option>
-                </Form.Select>
-              </InputGroup>
-              <InputGroup className="mb-3 beds-baths">
-                <InputGroup.Text id="inputGroup-sizing-default">
-                  Baths
-                </InputGroup.Text>
-                <Form.Select aria-label="Default select example">
-                  <option></option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                </Form.Select>
-              </InputGroup>
-            </Row>
-            <Row className="row row-btn" >
-              <ButtonGroup className="mb-2">
-                {bedsBaths.map((park, idx) => (
-                  
-                  <ToggleButton
-                  
-                    key={idx}
-                    id={`park-${idx}`}
-                    type="radio"
-                    variant="outline-secondary"
-                    className='btn'
-                    name="park"
-                    value={park.value}
-                    checked={parkingValue === park.value}
-                    onChange={(e) => setParkingValue(e.currentTarget.value)}
-
-                  >
-                    {park.name}
-                  </ToggleButton>
-                ))}
-              </ButtonGroup>
-            </Row>
-            <Row className="row row-btn" >
-              <ButtonGroup className="mb-2">
-                {furnishedArr.map((furnished, idx) => (
-
-                  <ToggleButton
-
-                    key={idx}
-                    id={`furnished-${idx}`}
-                    type="radio"
-                    variant="outline-secondary"
-                    className='btn'
-                    name="furnished"
-                    value={furnished.value}
-                    checked={furnishedValue === furnished.value}
-                    onChange={(e) => setFurnishedValue(e.currentTarget.value)}
-
-                  >
-                    {furnished.name}
-                  </ToggleButton>
-                ))}
-              </ButtonGroup>
-            </Row>
-
-          </FormGroup>
-     
-        </Form> */}
-
-      </div>
-
-    </main>
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button
+              type="submit"
+            // disabled={progress !== null && progress < 100}
+            >
+              Create Listing
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </Container>
   )
 }

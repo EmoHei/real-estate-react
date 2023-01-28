@@ -1,6 +1,7 @@
 import spinner from '../../assets/svg/spinner.svg'
 import React from 'react'
 import '../spinner/SpinnerComp.css';
+
 export default function SpinnerComp() {
   return (
     <div className='spinner-container'>

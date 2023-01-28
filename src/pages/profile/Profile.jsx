@@ -97,7 +97,7 @@ export default function Profile() {
                             variant="primary" 
                             type="submit"
                             className='sell-rent-btn' >
-                                <Link className='rent-sell-link' to="/create-listening">
+                                <Link className='rent-sell-link' to="/create">
                                  <FcHome className='home-icon'/>
                                 Sell or rent your home
                                 </Link>

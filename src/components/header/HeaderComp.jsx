@@ -3,11 +3,12 @@ import { useNavigate, NavLink } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import "../header/HeaderComp.css";
+import { Col, Container, Row } from 'react-bootstrap';
 
 export default function Header() {
 
     const [isLogged, setIsLogged] = useState(false);
-    const [profileName ,setProfileName] =useState('')
+    const [profileName, setProfileName] = useState('')
     const navigate = useNavigate();
     const auth = getAuth();
 
@@ -15,15 +16,20 @@ export default function Header() {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 setIsLogged(true)
-            
-               setProfileName (user.displayName) 
+
+                setProfileName(user.displayName)
             } else setIsLogged(false)
         })
     }, [auth])
- 
+
+    function onLogout() {
+        auth.signOut();
+
+    }
+
     return (
 
-        <div className='div-container'>
+        <Container className='div-container'>
             <header >
 
                 <div className="logo-container">
@@ -35,19 +41,28 @@ export default function Header() {
                     <span>Real Estate Market</span>
                 </div>
 
-                <div className="nav-menu-container">
+                <nav className="nav-menu-container">
                     <ul className='flex space-x-10'>
-                        
-                        <li > <NavLink to='/' >Home</NavLink> </li>
-                        <li > <NavLink to='/offers' >Offers</NavLink> </li>
-                        {/* Guest */}
-                        {!isLogged && <li ><NavLink to='/sign-in' >Sign in</NavLink> </li>}
-                        {/* Logged User */}
-                        {isLogged && <li ><NavLink to='/profile' >{profileName}'s profile</NavLink> </li>}
+                        <Row>
+                           
+                            <Col style={{display:'flex'}}>
+                                <li > <NavLink to='/' >Home</NavLink> </li>
+                                <li > <NavLink to='/offers' >Offers</NavLink> </li>
+                                {/* Guest */}
+                                {!isLogged && <li ><NavLink to='/sign-in' >Login</NavLink> </li>}
+                                {!isLogged && <li ><NavLink to='/sign-up' >Register</NavLink> </li>}
+                                {/* Logged User */}
+                                {isLogged && <li ><NavLink to='/profile' >Profile</NavLink> </li>}
+                                {isLogged && <li ><NavLink to='/create' >Create</NavLink> </li>}
+                                {isLogged && <li ><NavLink to='/logout' onClick={onLogout} > Logout</NavLink> </li>}
+                            </Col>
+                        </Row>
+
+
 
                     </ul>
-                </div>
+                </nav>
             </header>
-        </div>
+        </Container>
     )
 }

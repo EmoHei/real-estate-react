@@ -11,7 +11,7 @@ import GoogleAuthBtnComp from "../../components/google-auth-btn/GoogleAuthBtnCom
 import { toast } from "react-toastify";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
-export default function SignIn() {
+export default function ForgotPassword() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',

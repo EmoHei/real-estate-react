@@ -16,8 +16,8 @@ import { toast } from "react-toastify";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', });
-  const { name, email, password } = formData;
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+  const { name, email, password, confirmPassword } = formData;
   const navigate = useNavigate();
 
   function onChange(e) {
@@ -32,6 +32,9 @@ export default function SignUp() {
   async function onRegister(e) {
     e.preventDefault();
     try {
+      if(password !==confirmPassword){
+        return toast.error("Password don't match")
+      }
       const auth = getAuth()
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       //  If for example name in formData ()
@@ -42,20 +45,22 @@ export default function SignUp() {
       const formDataCopy = { ...formData };
       // !!! Important (delete password before add data to db)
       delete formDataCopy.password;
+      delete formDataCopy.confirmPassword;
       formDataCopy.timestamp = serverTimestamp();
       await setDoc(doc(db, "users", user.uid), formDataCopy);
       // Alert success Msg -usually we don't do that !!!
       toast.success('Registration was successful')
       navigate('/');
     } catch (error) {
-    // Alert Notification Message
+      // Alert Notification Message
       toast.error("Something went wrong with registration")
+      console.log(error);
     }
   }
   return (
     <section>
 
-      <h1 className="title">Sign Up</h1>
+      <h1 className="title">Register</h1>
 
       <div className="main-container" >
         {/*className="md:w-[67%] lg:w-[50%] mb-12 md:mb-6"  */}
@@ -128,9 +133,32 @@ export default function SignUp() {
                   onClick={() => setShowPassword((prevState) => !prevState)}
                 />)}
               </div>
+              <div className="password-container">
+                <FloatingLabel
+                  controlId="floatingPassword"
+                  label=" Confirm Password"
+                >
+                  <Form.Control
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Confirm Password"
+                    id="confirmPassword"
+                    className="form-input"
+                    value={confirmPassword}
+
+                    onChange={onChange}
+                  />
+                </FloatingLabel>
+
+                {showPassword ? (<AiFillEyeInvisible className="password-eye"
+                  onClick={() => setShowPassword((prevState) => !prevState)}
+                />
+                ) : (<AiFillEye className="password-eye"
+                  onClick={() => setShowPassword((prevState) => !prevState)}
+                />)}
+              </div>
 
               <FloatingLabel className="forgot-password-container">
-                <span>Already have an account?<span><Link style={{ color: 'red', textDecoration: 'none' }} to='/sign-in' > Sign In</Link></span> </span>
+                <span>Already have an account? <span><Link style={{ color: 'red', textDecoration: 'none' }} to='/sign-in' > Login</Link></span> </span>
 
               </FloatingLabel>
               <Button variant="primary" type="submit" className="submit-btn">

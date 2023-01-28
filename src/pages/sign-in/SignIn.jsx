@@ -43,7 +43,7 @@ export default function SignIn() {
 
     return (
         <section>
-            <h1 className="title">Sign In</h1>
+            <h1 className="title">Login</h1>
 
             <div className="main-container" >
 
@@ -96,7 +96,7 @@ export default function SignIn() {
                             </div>
 
                             <div className="forgot-password-container">
-                                <p>Don't have an account? <span><Link style={{ color: 'red', textDecoration: 'none' }} to='/sign-up' >Sign Up</Link></span></p>
+                                <p>Don't have an account? <span><Link style={{ color: 'red', textDecoration: 'none' }} to='/sign-up' >Register</Link></span></p>
                                 <Link style={{ color: 'blue', textDecoration: 'none' }} to='/forgot-password' >Forgot password ?</Link>
                             </div>
 
