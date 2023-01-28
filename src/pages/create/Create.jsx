@@ -8,7 +8,7 @@ import { useNavigate, } from 'react-router-dom';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { v4 as uuidv4 } from "uuid";  // Install package -  npm i uuid
-
+import SpinnerComp from "../../components/spinner/SpinnerComp"
 
 export default function Create() {
   const navigate = useNavigate();
@@ -142,9 +142,9 @@ export default function Create() {
     navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
 
-  // if (loading) {
-  //   return <SpinnerComp/>;
-  // }
+  if (loading) {
+    return <SpinnerComp/>;
+  }
 
 
   return (

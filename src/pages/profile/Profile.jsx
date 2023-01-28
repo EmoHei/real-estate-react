@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
-import { Button, Form } from 'react-bootstrap';
+import { Button, Container, Form } from 'react-bootstrap';
 import { getAuth, updateProfile } from 'firebase/auth'
 import '../profile/Profile.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { doc, serverTimestamp, setDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDocs, orderBy, query, serverTimestamp, setDoc, updateDoc, where } from "firebase/firestore";
 import { db } from '../../firebase-config';
 import { FcHome } from 'react-icons/fc'
+import { useEffect } from 'react';
+import ListingItem from '../../components/ListingItem';
+
 export default function Profile() {
     const auth = getAuth();
     const navigate = useNavigate();
 
-    const [changeDetail, setChangeDetail] = useState(false)
+    const [changeDetail, setChangeDetail] = useState(false);
+    const [listings, setListings] = useState(null);
+    const [loading, setLoading] = useState(true);
     let disabled;
 
 
@@ -48,10 +53,32 @@ export default function Profile() {
         }
     }
 
+    useEffect(()=>{
+        async function fetchUserListings() {
+            const listingRef = collection(db, "listings");
+            const q = query(
+                listingRef,
+                where("userRef", "==", auth.currentUser.uid),
+                orderBy("timestamp", "desc")
+            );
+            const querySnap = await getDocs(q);
+            let listings = [];
+            querySnap.forEach((doc) => {
+                return listings.push({
+                    id: doc.id,
+                    data: doc.data(),
+                });
+            });
+            setListings(listings);
+            setLoading(false);
+        }
+        fetchUserListings()
+    },[])
+
     return (
-        <div>
+        
             <>
-                <section className="form-section">
+                <Container className="form-section">
                     <h1 className='title'>My Profile</h1>
                     <div className='form-container'>
 
@@ -105,8 +132,25 @@ export default function Profile() {
                             </Button>
                         </Form>
                     </div>
-                </section>
+                </Container>
+{!loading && listings.length > 0 && (
+    <>
+    <h2 style={{textAlign:'center'}}>My Listings</h2>
+
+    <ul>
+        {listings.map((listing)=>(
+          <ListingItem 
+          key={listing.id} 
+          id={listing.id}
+          listing={listing.data}
+          />
+
+        ))}
+    </ul>
+    </>
+)}
+               
             </>
-        </div>
+        
     )
 }
