@@ -32,14 +32,14 @@ export default function Header() {
         <Container className='div-container'>
             <header >
 
-                <div className="logo-container">
+                {/* <div className="logo-container">
                     <img src='https://cdn.pixabay.com/photo/2016/04/19/06/57/logo-1338108_960_720.png'
                         alt='logo'
                         className='logo-image'
                         onClick={() => navigate('/')}
                     />
                     <span>Real Estate Market</span>
-                </div>
+                </div> */}
 
                 <nav className="nav-menu-container">
                     <ul className='flex space-x-10'>

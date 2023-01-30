@@ -8,7 +8,7 @@ import { collection, doc, getDocs, orderBy, query, serverTimestamp, setDoc, upda
 import { db } from '../../firebase-config';
 import { FcHome } from 'react-icons/fc'
 import { useEffect } from 'react';
-import ListingItem from '../../components/ListingItem';
+import ListingItem from '../../components/listingItem/ListingItem';
 
 export default function Profile() {
     const auth = getAuth();
@@ -73,7 +73,7 @@ export default function Profile() {
             setLoading(false);
         }
         fetchUserListings()
-    },[])
+    },[auth.currentUser.uid])
 
     return (
         
@@ -137,7 +137,7 @@ export default function Profile() {
     <>
     <h2 style={{textAlign:'center'}}>My Listings</h2>
 
-    <ul>
+    <ul style={{display:"flex",justifyContent:'center', flexWrap:"wrap",padding:'0'}}>
         {listings.map((listing)=>(
           <ListingItem 
           key={listing.id} 
