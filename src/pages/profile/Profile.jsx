@@ -1,3 +1,4 @@
+import "../profile/Profile.css"
 import React from 'react';
 import { getAuth, updateProfile } from "firebase/auth";
 import {
@@ -34,6 +35,7 @@ export default function Profile() {
         auth.signOut();
         navigate("/");
     }
+  
     function onChange(e) {
         setFormData((prevState) => ({
             ...prevState,
@@ -81,7 +83,7 @@ export default function Profile() {
         }
         fetchUserListings();
     }, [auth.currentUser.uid]);
-    
+
     // Delete
     async function onDelete(listingID) {
         if (window.confirm("Are you sure you want to delete?")) {
@@ -140,7 +142,7 @@ export default function Profile() {
                                     {changeDetail ? ' Apply-change' : ' Edit'}
                                 </span>
                             </Form.Label>
-                            <p onClick={onLogout}>Sign Out</p>
+                            <p style={{marginBottom:'8px'}} onClick={onLogout}>Sign Out</p>
                         </Form.Group>
                         {/* Button */}
                         <Button
