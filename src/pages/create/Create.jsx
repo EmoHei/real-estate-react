@@ -138,7 +138,7 @@ export default function Create() {
     !formDataCopy.offer && delete formDataCopy.discountedPrice;
     const docRef = await addDoc(collection(db, "listings"), formDataCopy);
     setLoading(false);
-    toast.success("Listing created");
+    toast.success("Listing created successfully");
     navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
 

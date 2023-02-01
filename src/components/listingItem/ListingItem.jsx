@@ -12,7 +12,7 @@ import moment from 'moment';
 export default function ListingItem({ listing, id, onEdit, onDelete }) {
 
   return (
-  
+
     <li className="li">
       <Card fluid="md" className="card-container">
         <Link className='content' to={`/category/${listing.type}/${id}`}>
@@ -27,7 +27,7 @@ export default function ListingItem({ listing, id, onEdit, onDelete }) {
 
           </Col>
           <Moment fromNow className="moment" >{listing.timestamp.toDate().toString()}</Moment>
-       
+
         </Link>
 
         <Col style={{ padding: '5px' }}>
@@ -42,8 +42,8 @@ export default function ListingItem({ listing, id, onEdit, onDelete }) {
 
           <p className="card-title">{listing.name}</p>
           <p style={{ color: '#457b9d', fontWeight: '500' }}>
-            $   
-            { listing.offer
+            $
+            {listing.offer
               ? listing.discountedPrice
                 .toString()
                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
@@ -64,27 +64,28 @@ export default function ListingItem({ listing, id, onEdit, onDelete }) {
                   ? `${listing.bathrooms} Baths`
                   : "1 Bath"}
               </p>
-
-
-
             </div>
-            {/* {onEdit && ( */}
-            <MdEdit
-              style={{ position: 'absolute', right: '20', marginRight: '5px', cursor: 'pointer' }}
-              className="absolute bottom-2 right-7 h-4 cursor-pointer "
-              onClick={() => onEdit(listing.id)}
-            />
-            {/* )} */}
-            {/* {onDelete && ( */}
-            <FaTrash
-              style={{ position: 'absolute', right: '1', marginRight: '5px', color: 'red', cursor: 'pointer' }}
-              className="absolute bottom-2 right-2 h-[14px] cursor-pointer text-red-500"
-              onClick={() => onDelete(listing.id)}
-            />
-            {/* )} */}
+            <div>
+{onEdit && (
+              <MdEdit
+                style={{ position: 'absolute', right: '50px', marginRight: '5px', cursor: 'pointer'}}
+                className="editIcon"
+                onClick={() => onEdit(listing.id)}
+                
+              />
+            )}
+            {onDelete &&(
+              <FaTrash
+                  style={{ position: 'absolute', right: '10px',marginRight: '5px', color: 'red', cursor: 'pointer' }}
+                className="deleteIcon"
+                onClick={() => onDelete(listing.id)}
+              />
+            )}
+            </div>
+            
 
           </div>
-      
+
         </Col>
 
 

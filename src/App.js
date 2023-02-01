@@ -43,9 +43,15 @@ function App() {
           <Route path="/create" element={<PrivateRoute />} >
             <Route path="/create" element={<Create></Create>} />
           </Route>
+          <Route path="edit" element={<PrivateRoute />}>
+            <Route path="/edit/:listingId" element={<Edit/>} />
+          </Route>
           
           <Route path="/logout" element={<PrivateRoute />} >
             <Route path="/logout" element={<Home></Home>} />
+          </Route>
+          <Route path="edit-listing" element={<PrivateRoute />}>
+            <Route path="/edit-listing/:listingId" element={<Edit/>} />
           </Route>
 
           <Route path="*" element={<NotFound/>} />
