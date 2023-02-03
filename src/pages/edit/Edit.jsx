@@ -45,7 +45,7 @@ export default function Edit() {
     images,
   } = formData;
 
-  const params = useParams();
+  const params = useParams(); // Importend
 //  Only author can update
   useEffect(() => {
     if (listing && listing.userRef !== auth.currentUser.uid) {
@@ -58,7 +58,7 @@ export default function Edit() {
   useEffect(() => {
     setLoading(true);
     async function fetchListing() {
-      const docRef = doc(db, "listings", params.listingId);
+      const docRef = doc(db, "listings", params.listingId); // import params hook !!
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setListing(docSnap.data());

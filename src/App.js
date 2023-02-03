@@ -16,6 +16,7 @@ import Create from './pages/create/Create';
 import Edit from './pages/edit/Edit';
 import NotFound from './pages/not-Found/NotFound';
 import Details from './pages/details/Details';
+import Listing from './pages/Listing';
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
           <Route path="/sign-up" element={<SignUp></SignUp>} />
           <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
           <Route path="/offers" element={<Offers></Offers>} />
+          <Route path="/category/:categoryName/:listingId" element={<Listing></Listing>} />
 
           <Route path="/create" element={<PrivateRoute />} >
             <Route path="/create" element={<Create></Create>} />
