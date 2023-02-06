@@ -99,14 +99,11 @@ export default function Profile() {
     function onEdit(listingID) {
         navigate(`/edit-listing/${listingID}`);
     }
-
     return (
-
         <>
             <Container className="form-section">
                 <h1 className='title'>My Profile</h1>
                 <div className='form-container'>
-
                     <Form>
                         {/* Name Input */}
                         <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -153,7 +150,6 @@ export default function Profile() {
                                 <FcHome className='home-icon' />
                                 Sell or rent your home
                             </Link>
-
                         </Button>
                     </Form>
                 </div>
@@ -165,6 +161,7 @@ export default function Profile() {
                     <ul style={{ display: "flex", justifyContent: 'center', flexWrap: "wrap", padding: '0' }}>
                         {listings.map((listing) => (
                             <ListingItem
+                          className="item"
                                 key={listing.id}
                                 id={listing.id}
                                 listing={listing.data}

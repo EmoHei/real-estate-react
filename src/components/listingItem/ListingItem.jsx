@@ -82,8 +82,6 @@ export default function ListingItem({ listing, id, onEdit, onDelete }) {
               />
             )}
             </div>
-            
-
           </div>
 
         </Col>
