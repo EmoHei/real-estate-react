@@ -15,9 +15,10 @@ import { getAuth } from "firebase/auth";
 import { useParams } from 'react-router';
 import { doc, getDoc } from 'firebase/firestore';
 import SpinnerComp from '../components/spinner/SpinnerComp';
-import { Card, Container } from 'react-bootstrap';
+import { Button, Card, Container } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { MdEdit, MdLocationOn } from "react-icons/md";
+import Contact from '../components/Contact';
 // import Contact from "../components/Contact";
 // import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
@@ -54,7 +55,8 @@ export default function Listing() {
 
     return (
         <Container className='container' >
-            <Carousel
+            {listing.imgUrls.length >1 ?
+             <Carousel
                 fade
                 className='slider-carousel'
                 activeIndex={index} onSelect={handleSelect}
@@ -74,6 +76,18 @@ export default function Listing() {
                     </Carousel.Item>
                 ))}
             </Carousel>
+                : <img
+                    className="d-block w-100"
+                    key={index}
+                    style={{
+                        background: `url(${listing.imgUrls
+                        [index]})`,
+                        height: '400px',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundSize: 'cover'
+                    }} />
+            }
+           
             <div
                 className='share-icon-container'
                 onClick={() => {
@@ -136,8 +150,31 @@ export default function Listing() {
                         <FaChair></FaChair>
                     </li>
                 </ul>
+
+                {listing.userRef !== auth.currentUser.uid 
+                && !contactLandlord && (
+                <div style={{
+                margin:'auto',
+                marginTop:'50px',
+                maxWidth:'300px'
+                
+               }}>
+                  <Button
+                    onClick={()  => setContactLandlord(true)}      
+               > Contact Landlord</Button>  
+                </div>
+                )
+                }
+                {contactLandlord && (
+                    <Contact 
+                    userRef={listing.userRef}
+                    listing={listing}
+                    ></Contact>
+                    
+                )}
                
             </Card>
+            
         </Container>
 
     );
