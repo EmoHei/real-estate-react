@@ -13,4 +13,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-
+/* For Chrome - remove the scrollbar  */
+html::-webkit-scrollbar{
+  display: none
+}
+/* For Firefox - remove the scrollbar  */
+html{
+  scrollbar-width: none
+}

@@ -38,7 +38,9 @@ export default function Home() {
             data: doc.data(),
           });
         });
+       
         setOfferListings(listings);
+
       } catch (error) {
         console.log(error);
       }
@@ -69,6 +71,7 @@ export default function Home() {
           });
         });
         setRentListings(listings);
+     
       } catch (error) {
         console.log(error);
       }
@@ -99,6 +102,7 @@ export default function Home() {
           });
         });
         setSaleListings(listings);
+       
       } catch (error) {
         console.log(error);
       }
@@ -108,16 +112,16 @@ export default function Home() {
   return (
     <div>
       <Slider />
-      <div className="max-w-6xl mx-auto pt-4 space-y-6">
+      <div>
         {offerListings && offerListings.length > 0 && (
           <div className="m-2 mb-6">
-            <h2 className="px-3 text-2xl mt-6 font-semibold">Recent offers</h2>
+            <h2 >Recent offers</h2>
             <Link to="/offers">
-              <p className="px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out">
+              <p >
                 Show more offers
               </p>
             </Link>
-            <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+            <ul style={{ display: 'flex' }}>
               {offerListings.map((listing) => (
                 <ListingItem
                   key={listing.id}
@@ -136,7 +140,9 @@ export default function Home() {
                 Show more places for rent
               </p>
             </Link>
-            <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+            <ul className=""
+              style={{ display: 'flex' }}
+            >
               {rentListings.map((listing) => (
                 <ListingItem
                   key={listing.id}
@@ -149,13 +155,13 @@ export default function Home() {
         )}
         {saleListings && saleListings.length > 0 && (
           <div className="m-2 mb-6">
-            <h2 className="px-3 text-2xl mt-6 font-semibold">Places for sale</h2>
+            <h2 >Places for sale</h2>
             <Link to="/category/sale">
-              <p className="px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out">
+              <p>
                 Show more places for sale
               </p>
             </Link>
-            <ul className="sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ">
+            <ul style={{ display: 'flex' }}>
               {saleListings.map((listing) => (
                 <ListingItem
                   key={listing.id}
@@ -169,4 +175,5 @@ export default function Home() {
       </div>
     </div>
   );
-}
+
+}  

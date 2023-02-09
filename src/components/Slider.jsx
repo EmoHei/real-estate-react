@@ -6,7 +6,7 @@ import { db } from "../firebase-config";
 
 import { useNavigate } from "react-router-dom";
 import SpinnerComp from './spinner/SpinnerComp';
-import { Carousel, Container } from 'react-bootstrap';
+import { Carousel} from 'react-bootstrap';
 
 export default function Slider() {
     const [listings, setListings] = useState(null);
@@ -42,7 +42,6 @@ export default function Slider() {
             <>
                 <Carousel
                     fade
-
                 >
                     {listings.map(({ data, id }) => (
                         <Carousel.Item

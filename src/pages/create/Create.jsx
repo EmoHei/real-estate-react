@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { db, storage } from "../../firebase-config";
+import { db, } from "../../firebase-config";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import '../create/Create.css'
 import { Button, Col, Container, FloatingLabel, Form, Row } from 'react-bootstrap';
@@ -24,7 +24,7 @@ export default function Create() {
     furnished: false,
     address: "",
     description: "",
-    offer: true,
+    offer: false,
     regularPrice: 0,
     discountedPrice: 0,
     images: {},
@@ -58,14 +58,23 @@ export default function Create() {
         images: e.target.files,
       }));
     }
-    //Text/Boolean/Number
+    // Text/Boolean/Number
     if (!e.target.files) {
-      setFormData((prevState) => ({
-        ...prevState,
-        // TODO
-        [e.target.id]: e.target.value,
-      }));
+      if (boolean) {
+
+        setFormData((prevState) => ({
+          ...prevState,
+          [e.target.id]: boolean
+        }));
+      } else {
+        setFormData((prevState) => ({
+          ...prevState,
+          [e.target.id]: e.target.value,
+        }));
+      }
+
     }
+
   }
   async function onSubmit(e) {
     e.preventDefault();
@@ -143,7 +152,7 @@ export default function Create() {
   }
 
   if (loading) {
-    return <SpinnerComp/>;
+    return <SpinnerComp />;
   }
 
 
