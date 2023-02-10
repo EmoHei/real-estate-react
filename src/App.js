@@ -20,6 +20,8 @@ import Category from './pages/category/Category';
 
 
 function App() {
+  console.log(process.env.REACT_APP_API_KEY)
+   
   return (
     <>
       <Router>
