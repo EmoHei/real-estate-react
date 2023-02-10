@@ -1,5 +1,6 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router';
 
 export function useAuthStatus() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -12,6 +13,7 @@ export function useAuthStatus() {
             if (user) {
                 setLoggedIn(true)
             }
+
            setCheckingStatus(false)
         }, [])
          

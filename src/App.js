@@ -15,8 +15,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import Create from './pages/create/Create';
 import Edit from './pages/edit/Edit';
 import NotFound from './pages/not-Found/NotFound';
-import Details from './pages/details/Details';
 import Listing from './pages/Listing';
+import Category from './pages/category/Category';
 
 
 function App() {
@@ -26,27 +26,36 @@ function App() {
         <Header></Header>
 
         <Routes>
-          <Route path='/' element={<PrivateRoute />}>
-            <Route path="/" element={<Home></Home>} />
-          </Route>
+
+          <Route path="/" element={<Home></Home>} />
+
 
           <Route path='/profile' element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
 
-          <Route path="/details/:id" element={<Details />} />
+
           <Route path="/update/:id" element={<Edit />} />
 
 
           <Route path="/sign-in" element={<SignIn></SignIn>} />
           <Route path="/sign-up" element={<SignUp></SignUp>} />
           <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
-          <Route path="/offers" element={<Offers></Offers>} />
-          <Route path="/category/:categoryName/:listingId" element={<Listing></Listing>} />
+
+          <Route path='/' element={<PrivateRoute />}>
+            <Route path="/offers" element={<Offers></Offers>} />
+          </Route>
+          <Route path='/category/:categoryName' element={<PrivateRoute />}>
+            <Route path="/category/:categoryName" element={<Category></Category>} />
+          </Route>
+          <Route path='/category/:categoryName/:listingId' element={<PrivateRoute />}>
+            <Route path="/category/:categoryName/:listingId" element={<Listing></Listing>} />
+          </Route>
 
           <Route path="/create" element={<PrivateRoute />} >
             <Route path="/create" element={<Create></Create>} />
           </Route>
+
           <Route path="edit" element={<PrivateRoute />}>
             <Route path="/edit/:listingId" element={<Edit />} />
           </Route>
