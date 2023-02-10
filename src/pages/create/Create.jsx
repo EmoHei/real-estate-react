@@ -13,7 +13,7 @@ import SpinnerComp from "../../components/spinner/SpinnerComp"
 export default function Create() {
   const navigate = useNavigate();
   const auth = getAuth();
-
+  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     type: "rent",
@@ -27,6 +27,8 @@ export default function Create() {
     offer: false,
     regularPrice: 0,
     discountedPrice: 0,
+    latitude: 0,
+    longitude: 0,
     images: {},
   });
   const {
@@ -41,6 +43,8 @@ export default function Create() {
     offer,
     regularPrice,
     discountedPrice,
+    latitude,
+    longitude,
     images,
   } = formData;
   function onChange(e) {
@@ -74,7 +78,6 @@ export default function Create() {
       }
 
     }
-
   }
   async function onSubmit(e) {
     e.preventDefault();
@@ -89,7 +92,29 @@ export default function Create() {
       toast.error("maximum 6 images are allowed");
       return;
     }
+    // let geolocation = {};
+    // let location;
+    // if (geolocationEnabled) {
+    //   const response = await fetch(
+    //     `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
+    //   );
+    //   const data = await response.json();
+    //   console.log(data);
+      // geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
+      // geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
 
+    //   location = data.status === "ZERO_RESULTS" && undefined;
+
+    //   if (location === undefined) {
+    //     setLoading(false);
+    //     toast.error("please enter a correct address");
+    //     return;
+    //   }
+    //  } 
+    // else {
+    //   geolocation.lat = latitude;
+    //   geolocation.lng = longitude;
+    // }
 
     async function storeImage(image) {
       return new Promise((resolve, reject) => {
