@@ -13,7 +13,6 @@ import {
 import { db } from "../../firebase-config";
 import SpinnerComp from "../../components/spinner/SpinnerComp";
 import ListingItem from "../../components/listingItem/ListingItem";
-import { async } from "@firebase/util";
 import { Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import "../pages/Listing.css"
-import Spinner from "../components/spinner/SpinnerComp";
 import { db } from "../firebase-config";
 import Carousel from 'react-bootstrap/Carousel';
 import {
@@ -16,8 +15,6 @@ import { useParams } from 'react-router';
 import { doc, getDoc } from 'firebase/firestore';
 import SpinnerComp from '../components/spinner/SpinnerComp';
 import { Button, Card, Container } from 'react-bootstrap';
-import ProgressBar from 'react-bootstrap/ProgressBar';
-import { MdEdit, MdLocationOn } from "react-icons/md";
 import Contact from '../components/Contact';
 // import Contact from "../components/Contact";
 // import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";

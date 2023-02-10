@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { db, storage } from "../../firebase-config";
+import { db,} from "../../firebase-config";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import '../create/Create.css'
 import { Button, Col, Container, FloatingLabel, Form, Row } from 'react-bootstrap';
 import { toast } from "react-toastify";
 import { useNavigate, useParams, } from 'react-router-dom';
-import { addDoc, collection, doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
+import {  doc, getDoc, serverTimestamp, updateDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { v4 as uuidv4 } from "uuid";  // Install package -  npm i uuid
 import SpinnerComp from "../../components/spinner/SpinnerComp"

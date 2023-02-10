@@ -7,7 +7,6 @@ import Moment from 'react-moment'
 import 'moment-timezone'
 import { MdEdit, MdLocationOn } from "react-icons/md";
 import { FaTrash } from "react-icons/fa";
-import moment from 'moment';
 
 export default function ListingItem({ listing, id, onEdit, onDelete }) {
 
