@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import PrivateRoute from './components/PrivateRoute';
 import Home from "./pages/home/Home";
 import Offers from "./pages/offers/Offers";
