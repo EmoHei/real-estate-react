@@ -26,13 +26,15 @@ function App() {
         <Header></Header>
 
         <Routes>
-          <Route path="/" element={<Home></Home>} />
+          <Route path='/' element={<PrivateRoute />}>
+            <Route path="/" element={<Home></Home>} />
+          </Route>
 
           <Route path='/profile' element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
 
-          <Route path="/details/:id" element={<Details/>} />
+          <Route path="/details/:id" element={<Details />} />
           <Route path="/update/:id" element={<Edit />} />
 
 
@@ -46,17 +48,17 @@ function App() {
             <Route path="/create" element={<Create></Create>} />
           </Route>
           <Route path="edit" element={<PrivateRoute />}>
-            <Route path="/edit/:listingId" element={<Edit/>} />
+            <Route path="/edit/:listingId" element={<Edit />} />
           </Route>
-          
+
           <Route path="/logout" element={<PrivateRoute />} >
             <Route path="/logout" element={<Home></Home>} />
           </Route>
           <Route path="edit-listing" element={<PrivateRoute />}>
-            <Route path="/edit-listing/:listingId" element={<Edit/>} />
+            <Route path="/edit-listing/:listingId" element={<Edit />} />
           </Route>
 
-          <Route path="*" element={<NotFound/>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
       </Router>

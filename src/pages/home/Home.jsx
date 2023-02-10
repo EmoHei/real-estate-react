@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import './Home.css'
 import {
   collection,
   getDoc,
@@ -114,14 +115,15 @@ export default function Home() {
       <Slider />
       <div>
         {offerListings && offerListings.length > 0 && (
-          <div className="m-2 mb-6">
-            <h2 >Recent offers</h2>
+          <div>
+          
+            <h2 className='title-offer-sale-rent'>Recent offers</h2>
             <Link to="/offers">
-              <p >
+              <p className='sub-title'>
                 Show more offers
               </p>
             </Link>
-            <ul style={{ display: 'flex' }}>
+            <ul style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
               {offerListings.map((listing) => (
                 <ListingItem
                   key={listing.id}
@@ -133,15 +135,15 @@ export default function Home() {
           </div>
         )}
         {rentListings && rentListings.length > 0 && (
-          <div className="m-2 mb-6">
-            <h2 className="px-3 text-2xl mt-6 font-semibold">Places for rent</h2>
+          <div>
+            <h2 className="title-offer-sale-rent">Places for rent</h2>
             <Link to="/category/rent">
-              <p className="px-3 text-sm text-blue-600 hover:text-blue-800 transition duration-150 ease-in-out">
+              <p className='sub-title'>
                 Show more places for rent
               </p>
             </Link>
             <ul className=""
-              style={{ display: 'flex' }}
+              style={{ display: 'flex',justifyContent:'space-around',flexWrap:'wrap' }}
             >
               {rentListings.map((listing) => (
                 <ListingItem
@@ -155,13 +157,13 @@ export default function Home() {
         )}
         {saleListings && saleListings.length > 0 && (
           <div className="m-2 mb-6">
-            <h2 >Places for sale</h2>
+            <h2 className='title-offer-sale-rent'>Places for sale</h2>
             <Link to="/category/sale">
-              <p>
+              <p className='sub-title'>
                 Show more places for sale
               </p>
             </Link>
-            <ul style={{ display: 'flex' }}>
+            <ul style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
               {saleListings.map((listing) => (
                 <ListingItem
                   key={listing.id}
