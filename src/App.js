@@ -29,15 +29,11 @@ function App() {
 
         <Routes>
 
-          <Route path="/" element={<Home></Home>} />
-
-
-          <Route path='/profile' element={<PrivateRoute />}>
+          <Route path="/" element={<Home></Home>}/>
+        <Route path='/profile' element={<PrivateRoute />}>
             <Route path="/profile" element={<Profile />} />
           </Route>
-
-
-          <Route path="/update/:id" element={<Edit />} />
+    <Route path="/update/:id" element={<Edit />} />
 
 
           <Route path="/sign-in" element={<SignIn></SignIn>} />

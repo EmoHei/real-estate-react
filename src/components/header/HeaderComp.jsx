@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 import "../header/HeaderComp.css";
@@ -9,7 +9,6 @@ export default function Header() {
 
     const [isLogged, setIsLogged] = useState(false);
     const [profileName, setProfileName] = useState('')
-    const navigate = useNavigate();
     const auth = getAuth();
 
     useEffect(() => {
@@ -24,27 +23,13 @@ export default function Header() {
 
     function onLogout() {
         auth.signOut();
-
     }
-
     return (
-
         <Container className='div-container'>
             <header >
-
-                {/* <div className="logo-container">
-                    <img src='https://cdn.pixabay.com/photo/2016/04/19/06/57/logo-1338108_960_720.png'
-                        alt='logo'
-                        className='logo-image'
-                        onClick={() => navigate('/')}
-                    />
-                    <span>Real Estate Market</span>
-                </div> */}
-
-                <nav className="nav-menu-container">
+              <nav className="nav-menu-container">
                     <ul className='flex space-x-10'>
                         <Row>
-                           
                             <Col style={{display:'flex'}}>
                                 <li > <NavLink to='/' >Home</NavLink> </li>
                                 <li > <NavLink to='/offers' >Offers</NavLink> </li>
@@ -57,9 +42,6 @@ export default function Header() {
                                 {isLogged && <li ><NavLink to='/logout' onClick={onLogout} > Logout</NavLink> </li>}
                             </Col>
                         </Row>
-
-
-
                     </ul>
                 </nav>
             </header>

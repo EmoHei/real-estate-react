@@ -1,5 +1,5 @@
- import React from "react"; 
- import { doc, getDoc } from "firebase/firestore";
+import React from "react";
+import { doc, getDoc } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -33,11 +33,11 @@ export default function Contact({ userRef, listing }) {
                     </p>
                     <div className="">
                         <Form.Control
-          as="textarea"
+                            as="textarea"
                             placeholder="Leave a message here"
-          style={{ height: '100px' }}
+                            style={{ height: '100px' }}
                             name="message"
-                            id="message"
+                            controlId="message"
                             value={message}
                             onChange={onChange}
                             className=""
@@ -47,10 +47,10 @@ export default function Contact({ userRef, listing }) {
                         href={`mailto:${landlord.email}?Subject=${listing.name}&body=${message}`}
                     >
                         <Button
-                        type="button"
-                        style={{
-                            marginTop:'20px'
-                        }}
+                            type="button"
+                            style={{
+                                marginTop: '20px'
+                            }}
                         > Send Message</Button>
                     </a>
                 </div>

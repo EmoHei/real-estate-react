@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Link, Navigate } from 'react-router-dom';
+import { Link,} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
@@ -11,7 +11,6 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import '../sign-in/SignIn.css';
-import { async } from "@firebase/util";
 
 export default function SignIn() {
     const [showPassword, setShowPassword] = useState(false);
@@ -38,10 +37,7 @@ export default function SignIn() {
             toast.error('Bad user credentials!')
         }
     }
-
-
-
-    return (
+  return (
         <section>
             <h1 className="title">Login</h1>
 
@@ -59,14 +55,14 @@ export default function SignIn() {
                     <Form onSubmit={onLogin}>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <FloatingLabel
-                                controlId="floatingInput"
+                              
                                 label="Email address"
                                 className="mb-3"
                             >
                                 <Form.Control
                                     type="email"
                                     placeholder="name@example.com"
-                                    id="email"
+                                    controlId="email"
                                     className="form-input"
                                     value={email}
                                     required
@@ -75,11 +71,11 @@ export default function SignIn() {
                             </FloatingLabel>
 
                             <div className="password-container">
-                                <FloatingLabel controlId="floatingPassword" label="Password" >
+                                <FloatingLabel className="floatingPassword" label="Password" >
                                     <Form.Control
                                         type={showPassword ? 'text' : 'password'}
                                         placeholder="Password"
-                                        id="password"
+                                        controlId="password"
                                         className="form-input"
                                         value={password}
                                         required

@@ -13,9 +13,9 @@ import SpinnerComp from "../../components/spinner/SpinnerComp"
 export default function Create() {
   const navigate = useNavigate();
   const auth = getAuth();
-  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+ const [formData, setFormData] = useState({
+ 
     type: "rent",
     name: "",
     bedrooms: 1,
@@ -43,8 +43,6 @@ export default function Create() {
     offer,
     regularPrice,
     discountedPrice,
-    latitude,
-    longitude,
     images,
   } = formData;
   function onChange(e) {
@@ -92,29 +90,6 @@ export default function Create() {
       toast.error("maximum 6 images are allowed");
       return;
     }
-    // let geolocation = {};
-    // let location;
-    // if (geolocationEnabled) {
-    //   const response = await fetch(
-    //     `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API_KEY}`
-    //   );
-    //   const data = await response.json();
-    //   console.log(data);
-      // geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
-      // geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
-
-    //   location = data.status === "ZERO_RESULTS" && undefined;
-
-    //   if (location === undefined) {
-    //     setLoading(false);
-    //     toast.error("please enter a correct address");
-    //     return;
-    //   }
-    //  } 
-    // else {
-    //   geolocation.lat = latitude;
-    //   geolocation.lng = longitude;
-    // }
 
     async function storeImage(image) {
       return new Promise((resolve, reject) => {
@@ -153,7 +128,6 @@ export default function Create() {
         );
       });
     }
-
     const imgUrls = await Promise.all([...images]
       .map((image) => storeImage(image)))
       .catch((error) => {
@@ -175,16 +149,12 @@ export default function Create() {
     toast.success("Listing created successfully");
     navigate(`/category/${formDataCopy.type}/${docRef.id}`);
   }
-
   if (loading) {
     return <SpinnerComp />;
   }
-
-
-  return (
+ return (
     <Container fluid="md">
       <Form onSubmit={onSubmit}>
-
         <Row>
           <Col >
             <h1 style={{ textAlign: 'center', marginTop: '30px' }}>Create Listing</h1>
@@ -199,7 +169,7 @@ export default function Create() {
           <Col>
             <Button
               type="button"
-              id="type"
+             controlId="type"
               value="sale"
               onClick={onChange}
               variant={`${type === "rent"
@@ -211,7 +181,7 @@ export default function Create() {
           <Col>
             <Button
               type="button"
-              id="type"
+             controlId="type"
               value="rent"
               onClick={onChange}
               variant={`${type === "sell"
@@ -220,19 +190,16 @@ export default function Create() {
                 }`}
             >Rent</Button>
           </Col>
-
-
-
-
-        </Row>
+   </Row>
         {/* Name */}
         <Row className='row-name input-row'>
 
           <FloatingLabel> Name</FloatingLabel>
           <Col className='col-name input-col'>
             <Form.Control
+            
               type="text"
-              id="name"
+             controlId="name"
               value={name}
               onChange={onChange}
               placeholder="Name"
@@ -240,7 +207,6 @@ export default function Create() {
               minLength="10"
               required
             >
-
             </Form.Control>
           </Col>
         </Row>
@@ -252,7 +218,7 @@ export default function Create() {
           <Col className='beds-baths-col'>
             <Form.Control
               type="number"
-              id="bedrooms"
+             controlId="bedrooms"
               value={bedrooms}
               onChange={onChange}
               min="1"
@@ -267,7 +233,7 @@ export default function Create() {
           <Col className='col-name'>
             <Form.Control
               type="number"
-              id="bathrooms"
+             controlId="bathrooms"
               value={bathrooms}
               onChange={onChange}
               min="1"
@@ -338,7 +304,7 @@ export default function Create() {
             <Form.Control
               as="textarea"
               type="text"
-              id="address"
+             controlId="address"
               value={address}
               onChange={onChange}
               placeholder="Address"
@@ -348,8 +314,6 @@ export default function Create() {
           </Col>
         </Row>
 
-        {/* Geolocation */}
-
         {/* Description */}
         <Row className='row-description input-row'>
 
@@ -358,13 +322,12 @@ export default function Create() {
             <Form.Control
               as="textarea"
               type="text"
-              id="description"
+             controlId="description"
               value={description}
               onChange={onChange}
               placeholder="Description"
               required
             >
-
             </Form.Control>
           </Col>
         </Row>
@@ -389,7 +352,7 @@ export default function Create() {
           <Col className=''>
             <Button
               type="button"
-              id="offer"
+             controlId="offer"
               value={true}
               onClick={onChange}
               variant={`${offer ? "outline-secondary" : "secondary"
@@ -407,7 +370,7 @@ export default function Create() {
           <Col className=''>
             <Form.Control
               type="number"
-              id="regularPrice"
+             controlId="regularPrice"
               value={regularPrice}
               onChange={onChange}
               min="50"
@@ -427,7 +390,7 @@ export default function Create() {
               <Col className=''>
                 <Form.Control
                   type="number"
-                  id="discountedPrice"
+                 controlId="discountedPrice"
                   value={discountedPrice}
                   onChange={onChange}
                   min="50"
@@ -443,9 +406,7 @@ export default function Create() {
               </Col>
             </>
           )}
-
-
-        </Row>
+  </Row>
         {/* Images / Files */}
         <Row>
           <FloatingLabel>Select Images</FloatingLabel>
@@ -454,12 +415,11 @@ export default function Create() {
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Control
                 type="file"
-                id="images"
+               controlId="images"
                 onChange={onChange}
                 accept=".jpg,.png,.jpeg"
                 multiple
                 required
-
               />
             </Form.Group>
           </Col>

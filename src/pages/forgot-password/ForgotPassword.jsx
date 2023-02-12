@@ -63,7 +63,7 @@ export default function ForgotPassword() {
                 <Form.Control
                   type="email"
                   placeholder="name@example.com"
-                  id="email"
+                  controlId="email"
                   className="form-input"
                   value={email}
                   required

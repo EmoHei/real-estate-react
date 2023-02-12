@@ -75,7 +75,7 @@ export default function SignUp() {
         {/* className="w-full md:w-[67%] lg:w-[40%] lg:ml-20" */}
         <div className="form-container" >
           <Form onSubmit={onRegister}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3" >
               <FloatingLabel
                 controlId="floatingInput"
                 label="Full Name"
@@ -84,7 +84,7 @@ export default function SignUp() {
                 <Form.Control
                   type="text"
                   placeholder="John Doe"
-                  id="name"
+                  controlId="name"
                   className="form-input"
                   value={name}
                   onChange={onChange}
@@ -94,14 +94,14 @@ export default function SignUp() {
 
               </div>
               <FloatingLabel
-                controlId="floatingInput"
+               
                 label="Email address"
                 className="mb-3"
               >
                 <Form.Control
                   type="email"
                   placeholder="name@example.com"
-                  id="email"
+                  controlId="email"
                   className="form-input"
                   value={email}
 
@@ -112,13 +112,13 @@ export default function SignUp() {
 
               <div className="password-container">
                 <FloatingLabel
-                  controlId="floatingPassword"
+                
                   label="Password"
                 >
                   <Form.Control
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Password"
-                    id="password"
+                    controlId="password"
                     className="form-input"
                     value={password}
 
@@ -135,13 +135,13 @@ export default function SignUp() {
               </div>
               <div className="password-container">
                 <FloatingLabel
-                  controlId="floatingPassword"
+                 
                   label=" Confirm Password"
                 >
                   <Form.Control
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Confirm Password"
-                    id="confirmPassword"
+                    controlId="confirmPassword"
                     className="form-input"
                     value={confirmPassword}
 

@@ -195,7 +195,7 @@ export default function Edit() {
           <Col>
             <Button
               type="button"
-              id="type"
+              controlId="type"
               value="sale"
               onClick={onChange}
               variant={`${type === "rent"
@@ -207,7 +207,7 @@ export default function Edit() {
           <Col>
             <Button
               type="button"
-              id="type"
+              controlId="type"
               value="rent"
               onClick={onChange}
               variant={`${type === "sell"
@@ -217,9 +217,6 @@ export default function Edit() {
             >Rent</Button>
           </Col>
 
-
-
-
         </Row>
         {/* Name */}
         <Row className='row-name input-row'>
@@ -228,7 +225,7 @@ export default function Edit() {
           <Col className='col-name input-col'>
             <Form.Control
               type="text"
-              id="name"
+              controlId="name"
               value={name}
               onChange={onChange}
               placeholder="Name"
@@ -248,7 +245,7 @@ export default function Edit() {
           <Col className='beds-baths-col'>
             <Form.Control
               type="number"
-              id="bedrooms"
+              controlId="bedrooms"
               value={bedrooms}
               onChange={onChange}
               min="1"
@@ -263,7 +260,7 @@ export default function Edit() {
           <Col className='col-name'>
             <Form.Control
               type="number"
-              id="bathrooms"
+              controlId="bathrooms"
               value={bathrooms}
               onChange={onChange}
               min="1"
@@ -283,7 +280,7 @@ export default function Edit() {
 
             <Button
               type="button"
-              id="parking"
+              controlId="parking"
               value={true}
               onClick={onChange}
               variant={`${!parking ? "outline-secondary" : "secondary"
@@ -294,7 +291,7 @@ export default function Edit() {
 
             <Button
               type="button"
-              id="parking"
+              controlId="parking"
               value={false}
               onClick={onChange}
               variant={`${parking ? "outline-secondary" : "secondary"
@@ -310,7 +307,7 @@ export default function Edit() {
           <Col className=''>
             <Button
               type="button"
-              id="furnished"
+              controlId="furnished"
               value={true}
               onClick={onChange}
               variant={`${!furnished ? "outline-secondary" : "secondary"}`}
@@ -319,7 +316,7 @@ export default function Edit() {
           <Col className=''>
             <Button
               type="button"
-              id="furnished"
+              controlId="furnished"
               value={false}
               onClick={onChange}
               variant={`${furnished ? "outline-secondary" : "secondary"}`}
@@ -334,7 +331,7 @@ export default function Edit() {
             <Form.Control
               as="textarea"
               type="text"
-              id="address"
+              controlId="address"
               value={address}
               onChange={onChange}
               placeholder="Address"
@@ -354,13 +351,12 @@ export default function Edit() {
             <Form.Control
               as="textarea"
               type="text"
-              id="description"
+              controlId="description"
               value={description}
               onChange={onChange}
               placeholder="Description"
               required
             >
-
             </Form.Control>
           </Col>
         </Row>
@@ -373,7 +369,7 @@ export default function Edit() {
           <Col className=''>
             <Button
               type="button"
-              id="offer"
+              controlId="offer"
               value={true}
               onClick={onChange}
               variant={`${!offer ? "outline-secondary" : "secondary"
@@ -385,7 +381,7 @@ export default function Edit() {
           <Col className=''>
             <Button
               type="button"
-              id="offer"
+              controlId="offer"
               value={true}
               onClick={onChange}
               variant={`${offer ? "outline-secondary" : "secondary"
@@ -403,7 +399,7 @@ export default function Edit() {
           <Col className=''>
             <Form.Control
               type="number"
-              id="regularPrice"
+              controlId="regularPrice"
               value={regularPrice}
               onChange={onChange}
               min="50"
@@ -423,7 +419,7 @@ export default function Edit() {
               <Col className=''>
                 <Form.Control
                   type="number"
-                  id="discountedPrice"
+                  controlId="discountedPrice"
                   value={discountedPrice}
                   onChange={onChange}
                   min="50"
@@ -439,8 +435,6 @@ export default function Edit() {
               </Col>
             </>
           )}
-
-
         </Row>
         {/* Images / Files */}
         <Row>
@@ -450,7 +444,7 @@ export default function Edit() {
             <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
               <Form.Control
                 type="file"
-                id="images"
+                controlId="images"
                 onChange={onChange}
                 accept=".jpg,.png,.jpeg"
                 multiple

@@ -52,39 +52,39 @@ export default function Listing() {
 
     return (
         <Container className='container' >
-            {listing.imgUrls.length >1 ?
-             <Carousel
-                fade
-                className='slider-carousel'
-                activeIndex={index} onSelect={handleSelect}
-            >
-                {listing.imgUrls.map((url, index) => (
-                    <Carousel.Item>
-                        <img
-                            className="d-block w-100"
-                            key={index}
-                            style={{
-                                background: `url(${listing.imgUrls
-                                [index]})`,
-                                height: '400px',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundSize: 'cover'
-                            }} />
-                    </Carousel.Item>
-                ))}
-            </Carousel>
+            {listing.imgUrls.length > 1 ?
+                <Carousel
+                    fade
+                    className='slider-carousel'
+                    activeIndex={index} onSelect={handleSelect}
+                >
+                    {listing.imgUrls.map((url, index) => (
+                        <Carousel.Item>
+                            <img
+                                alt=''
+                                className="d-block w-100"
+                                key={index}
+                                style={{
+                                    background: `url(${listing.imgUrls[index]})`, 
+                                    height: '400px',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: 'cover'
+                                }} />
+                        </Carousel.Item>
+                    ))}
+                </Carousel>
                 : <img
+                alt=''
                     className="d-block w-100"
                     key={index}
                     style={{
-                        background: `url(${listing.imgUrls
-                        [index]})`,
+                        background: `url(${listing.imgUrls[index]})`,
                         height: '400px',
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'cover'
                     }} />
             }
-           
+
             <div
                 className='share-icon-container'
                 onClick={() => {
@@ -100,7 +100,7 @@ export default function Listing() {
             {shareLinkCopied && (<p className='share-text'>Link Copied</p>)}
 
             <Card className='content-container'>
-                <h1 className='card.title' style={{ color:'#173F88',fontWeight:'bold',marginBottom:'20px'}}>
+                <h1 className='card.title' style={{ color: '#173F88', fontWeight: 'bold', marginBottom: '20px' }}>
                     {listing.name} -
                     <span> $
                         {listing.offer ?
@@ -111,8 +111,8 @@ export default function Listing() {
                         {listing.type === 'rent' ? " / month" : ""}
                     </span>
                 </h1>
-                <p className='card-address'><FaMapMarkerAlt style={{color:'green'}}/>{listing.address}</p>
-                <div style={{display:'flex'}}>
+                <p className='card-address'><FaMapMarkerAlt style={{ color: 'green' }} />{listing.address}</p>
+                <div style={{ display: 'flex' }}>
                     <p className='rent-sale-btn'>
                         {listing.type === 'rent' ? "Rent" : "Sale"}
                     </p>
@@ -120,15 +120,15 @@ export default function Listing() {
                         <p className='offer-btn'>$ {(Number(listing.regularPrice) - Number(listing.discountedPrice)).toString()
                             .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} discount</p>
                     )}
-                    
+
                 </div>
-                <p style={{fontSize:'26px',fontWeight:'bold'}}>
-                    Description - <span style={{fontWeight:'500',fontSize: '20px',color:'gray' }}>{listing.description}</span>   
+                <p style={{ fontSize: '26px', fontWeight: 'bold' }}>
+                    Description - <span style={{ fontWeight: '500', fontSize: '20px', color: 'gray' }}>{listing.description}</span>
                 </p>
-                <ul style={{ display: 'flex',justifyContent:'space-around' }}>
-                    <li style={{display:'flex',flexDirection:'column'}}>
-                       {+listing.bedrooms > 1 ?
-                       `${listing.bedrooms} Beds` :" Bed"  } 
+                <ul style={{ display: 'flex', justifyContent: 'space-around' }}>
+                    <li style={{ display: 'flex', flexDirection: 'column' }}>
+                        {+listing.bedrooms > 1 ?
+                            `${listing.bedrooms} Beds` : " Bed"}
                         <FaBed></FaBed>
                     </li>
                     <li style={{ display: 'flex', flexDirection: 'column' }}>
@@ -148,30 +148,30 @@ export default function Listing() {
                     </li>
                 </ul>
 
-                {listing.userRef !== auth.currentUser.uid 
-                && !contactLandlord && (
-                <div style={{
-                margin:'auto',
-                marginTop:'50px',
-                maxWidth:'300px'
-                
-               }}>
-                  <Button
-                    onClick={()  => setContactLandlord(true)}      
-               > Contact Landlord</Button>  
-                </div>
-                )
+                {listing.userRef !== auth.currentUser.uid
+                    && !contactLandlord && (
+                        <div style={{
+                            margin: 'auto',
+                            marginTop: '50px',
+                            maxWidth: '300px'
+
+                        }}>
+                            <Button
+                                onClick={() => setContactLandlord(true)}
+                            > Contact Landlord</Button>
+                        </div>
+                    )
                 }
                 {contactLandlord && (
-                    <Contact 
-                    userRef={listing.userRef}
-                    listing={listing}
+                    <Contact
+                        userRef={listing.userRef}
+                        listing={listing}
                     ></Contact>
-                    
+
                 )}
-               
+
             </Card>
-            
+
         </Container>
 
     );

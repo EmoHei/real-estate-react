@@ -1,5 +1,6 @@
-import "../profile/Profile.css"
 import React from 'react';
+import "../profile/Profile.css"
+
 import { getAuth, updateProfile } from "firebase/auth";
 import {
     collection,
@@ -18,7 +19,7 @@ import { db } from "../../firebase-config";
 import { FcHome } from "react-icons/fc";
 import { useEffect } from "react";
 import ListingItem from "../../components/listingItem/ListingItem";
-import {  Form,Button, Container } from 'react-bootstrap';
+import {  Form,Button, Container, FormControl } from 'react-bootstrap';
 
 export default function Profile() {
     const auth = getAuth();
@@ -108,9 +109,10 @@ export default function Profile() {
                         {/* Name Input */}
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Name</Form.Label>
-                            <Form.Control
+                            <FormControl
+                              
                                 type="text"
-                                id='name'
+                                controlId='name'
                                 value={name}
                                 disabled={!changeDetail}
                                 onChange={onChange}
@@ -123,12 +125,11 @@ export default function Profile() {
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
                                 type="email"
-                                id='email'
+                                controlId='email'
                                 value={email}
                                 className="name-input"
                                 disabled={!changeDetail} />
                         </Form.Group>
-
                         <Form.Group className="mb-3 edit-sign-out-form-group" controlId="formBasicEmail">
                             <Form.Label>Do you want to change your name?
                                 <span onClick={() => {
