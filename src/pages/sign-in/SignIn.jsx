@@ -53,7 +53,7 @@ export default function SignIn() {
 
                 <div className="form-container" >
                     <Form onSubmit={onLogin}>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                      <Form.Group className="mb-3" id="formBasicEmail">
                             <FloatingLabel
                               
                                 label="Email address"
@@ -62,7 +62,7 @@ export default function SignIn() {
                                 <Form.Control
                                     type="email"
                                     placeholder="name@example.com"
-                                    controlId="email"
+                                  id="email"
                                     className="form-input"
                                     value={email}
                                     required
@@ -75,7 +75,7 @@ export default function SignIn() {
                                     <Form.Control
                                         type={showPassword ? 'text' : 'password'}
                                         placeholder="Password"
-                                        controlId="password"
+                                      id="password"
                                         className="form-input"
                                         value={password}
                                         required

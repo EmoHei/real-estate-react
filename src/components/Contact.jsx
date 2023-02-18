@@ -37,7 +37,7 @@ export default function Contact({ userRef, listing }) {
                             placeholder="Leave a message here"
                             style={{ height: '100px' }}
                             name="message"
-                            controlId="message"
+                            id="message"
                             value={message}
                             onChange={onChange}
                             className=""

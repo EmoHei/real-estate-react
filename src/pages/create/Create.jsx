@@ -169,8 +169,8 @@ export default function Create() {
           <Col>
             <Button
               type="button"
-             controlId="type"
-              value="sale"
+             id="type"
+              value="sell"
               onClick={onChange}
               variant={`${type === "rent"
                 ? "outline-secondary"
@@ -181,10 +181,10 @@ export default function Create() {
           <Col>
             <Button
               type="button"
-             controlId="type"
+            id="type"
               value="rent"
               onClick={onChange}
-              variant={`${type === "sell"
+             variant={`${type === "sell"
                 ? "outline-secondary"
                 : "secondary"
                 }`}
@@ -199,7 +199,7 @@ export default function Create() {
             <Form.Control
             
               type="text"
-             controlId="name"
+             id="name"
               value={name}
               onChange={onChange}
               placeholder="Name"
@@ -218,7 +218,7 @@ export default function Create() {
           <Col className='beds-baths-col'>
             <Form.Control
               type="number"
-             controlId="bedrooms"
+             id="bedrooms"
               value={bedrooms}
               onChange={onChange}
               min="1"
@@ -233,7 +233,7 @@ export default function Create() {
           <Col className='col-name'>
             <Form.Control
               type="number"
-             controlId="bathrooms"
+             id="bathrooms"
               value={bathrooms}
               onChange={onChange}
               min="1"
@@ -304,7 +304,7 @@ export default function Create() {
             <Form.Control
               as="textarea"
               type="text"
-             controlId="address"
+             id="address"
               value={address}
               onChange={onChange}
               placeholder="Address"
@@ -322,7 +322,7 @@ export default function Create() {
             <Form.Control
               as="textarea"
               type="text"
-             controlId="description"
+             id="description"
               value={description}
               onChange={onChange}
               placeholder="Description"
@@ -352,7 +352,7 @@ export default function Create() {
           <Col className=''>
             <Button
               type="button"
-             controlId="offer"
+             id="offer"
               value={true}
               onClick={onChange}
               variant={`${offer ? "outline-secondary" : "secondary"
@@ -370,7 +370,7 @@ export default function Create() {
           <Col className=''>
             <Form.Control
               type="number"
-             controlId="regularPrice"
+             id="regularPrice"
               value={regularPrice}
               onChange={onChange}
               min="50"
@@ -390,7 +390,7 @@ export default function Create() {
               <Col className=''>
                 <Form.Control
                   type="number"
-                 controlId="discountedPrice"
+                 id="discountedPrice"
                   value={discountedPrice}
                   onChange={onChange}
                   min="50"
@@ -412,10 +412,10 @@ export default function Create() {
           <FloatingLabel>Select Images</FloatingLabel>
           <FloatingLabel>The first image will be the cover (max 6)</FloatingLabel>
           <Col>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+           <Form.Group className="mb-3" id="exampleForm.ControlTextarea1">
               <Form.Control
                 type="file"
-               controlId="images"
+               id="images"
                 onChange={onChange}
                 accept=".jpg,.png,.jpeg"
                 multiple

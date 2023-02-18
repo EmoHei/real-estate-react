@@ -107,12 +107,12 @@ export default function Profile() {
                 <div className='form-container'>
                     <Form>
                         {/* Name Input */}
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Group className="mb-3" id="formBasicEmail">
                             <Form.Label>Name</Form.Label>
                             <FormControl
                               
                                 type="text"
-                                controlId='name'
+                                id='name'
                                 value={name}
                                 disabled={!changeDetail}
                                 onChange={onChange}
@@ -121,16 +121,16 @@ export default function Profile() {
                         </Form.Group>
 
                         {/* Email Input */}
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Group className="mb-3" id="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control
                                 type="email"
-                                controlId='email'
+                                id='email'
                                 value={email}
                                 className="name-input"
                                 disabled={!changeDetail} />
                         </Form.Group>
-                        <Form.Group className="mb-3 edit-sign-out-form-group" controlId="formBasicEmail">
+                        <Form.Group className="mb-3 edit-sign-out-form-group" id="formBasicEmail">
                             <Form.Label>Do you want to change your name?
                                 <span onClick={() => {
                                     changeDetail && onSubmit()

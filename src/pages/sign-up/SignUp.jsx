@@ -27,7 +27,6 @@ export default function SignUp() {
     }))
 
   }
-
   // Register
   async function onRegister(e) {
     e.preventDefault();
@@ -77,14 +76,14 @@ export default function SignUp() {
           <Form onSubmit={onRegister}>
             <Form.Group className="mb-3" >
               <FloatingLabel
-                controlId="floatingInput"
+                id="floatingInput"
                 label="Full Name"
                 className="mb-3"
               >
                 <Form.Control
                   type="text"
                   placeholder="John Doe"
-                  controlId="name"
+                  id="name"
                   className="form-input"
                   value={name}
                   onChange={onChange}
@@ -101,7 +100,7 @@ export default function SignUp() {
                 <Form.Control
                   type="email"
                   placeholder="name@example.com"
-                  controlId="email"
+                  id="email"
                   className="form-input"
                   value={email}
 
@@ -118,7 +117,7 @@ export default function SignUp() {
                   <Form.Control
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Password"
-                    controlId="password"
+                    id="password"
                     className="form-input"
                     value={password}
 
@@ -141,7 +140,7 @@ export default function SignUp() {
                   <Form.Control
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Confirm Password"
-                    controlId="confirmPassword"
+                    id="confirmPassword"
                     className="form-input"
                     value={confirmPassword}
 
